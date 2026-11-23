@@ -5,12 +5,14 @@ import { MDXRemote } from "next-mdx-remote/rsc";
 import remarkGfm from "remark-gfm";
 import rehypeSlug from "rehype-slug";
 import rehypePrettyCode from "rehype-pretty-code";
+import { AuthorBio } from "@/components/AuthorBio";
 import { Collage } from "@/components/Collage";
 import { KineticTitle } from "@/components/KineticTitle";
 import { mdxComponents } from "@/components/mdx";
 import { ReadingProgress } from "@/components/ReadingProgress";
 import { Toc } from "@/components/Toc";
 import { formatDate, getAllPosts, getPost, tagSlug } from "@/lib/posts";
+import { author as authorInfo } from "@/content/author";
 import { absoluteUrl, site } from "@/lib/site";
 
 type Props = { params: Promise<{ slug: string }> };
@@ -65,7 +67,7 @@ export default async function PostPage({ params }: Props) {
     description: post.description,
     datePublished: post.date,
     dateModified: post.updated ?? post.date,
-    author: { "@type": "Person", name: site.author, url: site.portfolio },
+    author: { "@type": "Person", name: authorInfo.name, url: absoluteUrl("/about"), image: absoluteUrl(authorInfo.photo) },
     mainEntityOfPage: absoluteUrl(`/posts/${post.slug}`),
     keywords: post.tags.join(", "),
   };
@@ -136,7 +138,11 @@ export default async function PostPage({ params }: Props) {
               </section>
             )}
 
-            <nav className="row-rule mt-16 grid max-w-[var(--measure)] gap-6 pt-6 sm:grid-cols-2" aria-label="More posts">
+            <div className="mt-16">
+              <AuthorBio />
+            </div>
+
+            <nav className="row-rule mt-12 grid max-w-[var(--measure)] gap-6 pt-6 sm:grid-cols-2" aria-label="More posts">
               {older ? (
                 <Link href={`/posts/${older.slug}`} className="block">
                   <span className="t-meta">Older</span>

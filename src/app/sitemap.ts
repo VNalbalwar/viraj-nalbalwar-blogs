@@ -7,6 +7,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return [
     { url: absoluteUrl("/"), changeFrequency: "weekly", priority: 1 },
     { url: absoluteUrl("/posts"), changeFrequency: "weekly", priority: 0.8 },
+    { url: absoluteUrl("/about"), changeFrequency: "monthly", priority: 0.6 },
     { url: absoluteUrl("/tags"), changeFrequency: "weekly", priority: 0.4 },
     ...getAllTags().map((t) => ({ url: absoluteUrl(`/tags/${t.slug}`), priority: 0.4 })),
     ...posts.map((p) => ({

@@ -18,6 +18,9 @@ A developer or student who found this post from a search or a link. They are sma
 9. If you cannot verify something, leave it out. If two sources disagree, say so and link both.
 10. Opinions are allowed but keep them few, label them as opinions ("My read: ..."), and list each one in REVIEW.md so Viraj can check he agrees.
 
+## Byline
+The byline is Viraj's. Never mention in the post that it was written, drafted or assisted by an AI tool, a model, Claude or a pipeline, and never describe the writing process. (Posts may of course be about AI as a topic.)
+
 ## Voice
 - Casual, direct, a little dry. Write like a sharp friend explaining something over chai, not like a brand.
 - Short paragraphs (1 to 4 sentences). Vary sentence length. Fragments are fine.

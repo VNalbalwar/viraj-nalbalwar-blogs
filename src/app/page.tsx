@@ -1,8 +1,10 @@
 import Link from "next/link";
 import { HeroTitle } from "@/components/HeroTitle";
 import { Scraps } from "@/components/Scraps";
+import { AuthorBio } from "@/components/AuthorBio";
 import { FeaturePost, PostRow } from "@/components/PostRow";
 import { getAllPosts } from "@/lib/posts";
+import { author } from "@/content/author";
 import { site } from "@/lib/site";
 
 export default function Home() {
@@ -13,8 +15,8 @@ export default function Home() {
     <div className="wrap">
       <section className="pb-14 pt-6 sm:pt-10">
         <HeroTitle />
-        <div className="mt-8 grid items-end gap-x-12 gap-y-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,27rem)]">
-          <p className="t-lead m-0">{site.tagline} Each post links its sources, and nothing goes live until a human has read it.</p>
+        <div className="mt-8 grid items-center gap-x-12 gap-y-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,27rem)]">
+          <p className="t-lead m-0">{site.tagline} Notes on Linux, cloud and AI by {author.name}, a computer engineering student in Pune.</p>
           <Scraps />
         </div>
       </section>
@@ -42,6 +44,10 @@ export default function Home() {
           </p>
         </section>
       )}
+    
+      <section className="mt-20" aria-label="About the author">
+        <AuthorBio heading="Hi, I'm Viraj" />
+      </section>
     </div>
   );
 }

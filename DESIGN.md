@@ -35,6 +35,10 @@ Paper colours are used for shapes only, never for text: persimmon `#ff4f2e`, sun
 - Replays: terminal blocks type two characters every 60ms. The scissors in section breaks travel in 14 steps.
 - Reduced motion: all idle animation stops, transitions are removed, terminals show the full transcript, section breaks render already cut.
 
+## Author presence
+
+The author's photo (`public/viraj-nalbalwar.jpg`) is shown cut out with scissors on four paper pieces (`Portrait`). Large on `/about`, small (with one offset persimmon piece) in `AuthorBio`, which closes every post and the home page. The footer names the author and links profiles. Facts live in `src/content/author.ts`, mirrored from the author's portfolio.
+
 ## Layout
 
 Left aligned. Page width 78rem with fluid gutters. Home is the wordmark, one sentence, the newest post as a wide feature, then ruled rows (collage thumbnail, title and description, date). Posts use a sticky contents rail (desktop) beside a 66ch column. No kickers, no stat rows, no identical-card grids.

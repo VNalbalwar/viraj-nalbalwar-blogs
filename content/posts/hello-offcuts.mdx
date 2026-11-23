@@ -1,44 +1,32 @@
 ---
-title: "Offcuts: what this blog is, and who actually writes it"
-description: "Notes on Linux, cloud and AI, with sources linked and a human merge before anything goes live. Here is how a post gets from idea to published."
+title: "Offcuts: a blog about systems that misbehave"
+description: "Linux, cloud and AI notes from a computer engineering student in Pune, with every outside claim linked to where it came from."
 date: "2026-11-24"
-tags: ["meta", "process"]
-draft: true
+tags: ["meta", "linux", "cloud"]
+draft: false
 sources:
-  - title: "Claude Code documentation"
-    url: "https://code.claude.com/docs"
+  - title: "Viraj Nalbalwar, portfolio"
+    url: "https://viraj-verse.vercel.app"
 ---
 
-This is a blog about things I try on real machines and what I find out. Some posts are experiments. Some are write-ups of a problem that cost me an evening. Some are news from AI and infrastructure, but only when I can point at the source.
+I like it when systems misbehave. A cluster that slows down for no reason, a Linux box that was fine until it wasn't, a shared GPU where one workload quietly hogs the rest. I keep poking until I know why.
 
-## How a post gets made
-
-A draft is researched and written with Claude, using web search for anything that happened recently. That draft arrives as a pull request. I read it, fix what is wrong or flat, check every link, and only then merge it. Merging is what publishes.
-
-<Callout type="note" title="Why say this out loud">
-Readers should know when a model helped write what they are reading. Saying so also keeps me honest about the review step.
-</Callout>
-
-## The rules posts follow
-
-1. Every claim about the outside world links to where it came from.
-2. If I did not run it, the post says so.
-3. No quote goes in unless I can link the page it came from.
-
----
+This blog is where that poking gets written down. I'm Viraj, a computer engineering student in Pune, and most of what I work on is Kubernetes, Linux and cloud infrastructure.
 
 ## What you will find here
 
-Linux and systems come first, because that is where I spend most of my time. Cloud and DevOps next. Then AI and ML news, written from what I could reproduce, not from a press release.
+Linux and systems first, then cloud and DevOps. Then the AI and ML news that is worth a second look, written from the original source and not from the headline.
 
-<Terminal
-  title="a first look"
-  lines={[
-    { cmd: "git log --oneline -3" },
-    { out: "3f2a9c1 post: draft ready for review" },
-    { out: "b71d0e4 site: add feed and sitemap" },
-    { out: "a09c5d7 init" },
-  ]}
-/>
+## The rules I hold myself to
 
-That block is sample output to show how terminal replays look in a post. Real posts use real output.
+1. Every claim about the outside world links to where it came from.
+2. If I did not run something, the post says so.
+3. No quote goes in unless I can link the page it came from.
+
+A post that breaks one of these gets fixed, not defended.
+
+<Callout type="note" title="Spot something wrong?">
+Tell me. The portfolio linked below has a contact form, and corrections are welcome.
+</Callout>
+
+Say hello at [viraj-verse.vercel.app](https://viraj-verse.vercel.app), or read more [about me](/about).

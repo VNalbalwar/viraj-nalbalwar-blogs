@@ -236,6 +236,11 @@ a.chip:hover, button.chip:hover { border-color: var(--ink); color: var(--ink); }
   transition: background-color 0.15s;
 }
 .nav-link:hover { background: var(--paper-2); }
+@media (max-width: 479px) { .nav-link { padding-inline: 0.55rem; } }
+@media (max-width: 399px) { .nav-link { padding-inline: 0.35rem; } }
+/* RSS stays in the footer on phones to keep the header on one row */
+.nav-link.nav-rss { display: none; }
+@media (min-width: 640px) { .nav-link.nav-rss { display: inline-flex; } }
 .nav-link[aria-current="page"] { background: var(--ink); color: var(--paper); }
 
 /* ─── Post rows ──────────────────────────────────────────────────────────── */
@@ -266,6 +271,7 @@ a.chip:hover, button.chip:hover { border-color: var(--ink); color: var(--ink); }
 .prose strong { font-weight: 700; }
 .prose ul, .prose ol { padding-left: 1.4em; }
 .prose ul { list-style: square; }
+.prose ol { list-style: decimal; }
 .prose li + li { margin-top: 0.4em; }
 .prose li::marker { color: var(--action); }
 .prose blockquote {
@@ -552,3 +558,13 @@ figure:hover .copy-btn, .copy-btn:focus-visible { opacity: 1; }
   animation: flash-swipe 1.4s var(--ease-out) forwards;
 }
 @media (prefers-reduced-motion: reduce) { .prose :is(h2, h3).flash { animation: none; background: none; } }
+
+/* ─── Portrait: a photo cut out with scissors, pasted on coloured paper ─── */
+.portrait { position: relative; aspect-ratio: 1; }
+.portrait-piece { position: absolute; }
+.portrait-piece > div { width: 100%; height: 100%; }
+.portrait-photo { position: absolute; inset: 7% 8% 6% 7%; }
+.portrait-photo img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.portrait-sm { position: relative; width: 4.75rem; height: 4.75rem; flex: none; }
+.portrait-sm-bg { position: absolute; inset: 0; translate: -5px 5px; background: var(--persimmon); clip-path: polygon(6% 0, 100% 10%, 92% 100%, 0 90%); rotate: -6deg; }
+.portrait-sm-img { position: relative; width: 100%; height: 100%; object-fit: cover; clip-path: polygon(3% 2%, 98% 0, 100% 97%, 0 100%); }

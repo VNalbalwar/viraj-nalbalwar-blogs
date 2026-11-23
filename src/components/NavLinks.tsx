@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 const links = [
   { href: "/posts", label: "Posts" },
   { href: "/tags", label: "Tags" },
+  { href: "/about", label: "About" },
 ];
 
 export function NavLinks() {
@@ -22,7 +23,7 @@ export function NavLinks() {
           {l.label}
         </Link>
       ))}
-      <a href="/rss.xml" className="nav-link">
+      <a href="/rss.xml" className="nav-link nav-rss">
         RSS
       </a>
     </>
