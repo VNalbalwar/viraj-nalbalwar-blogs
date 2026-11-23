@@ -35,7 +35,6 @@ export const metadata: Metadata = {
   authors: [{ name: site.author, url: `${site.url}/about` }],
   creator: site.author,
   publisher: site.author,
-  alternates: { types: { "application/rss+xml": "/rss.xml" } },
   openGraph: { type: "website", siteName: site.name, locale: "en_IN" },
   twitter: { card: "summary_large_image" },
   robots: robotsFor(),
@@ -64,6 +63,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       className={`${bricolage.variable} ${nunito.variable} ${jetbrains.variable}`}
     >
       <head>
+        {/* Feed autodiscovery for readers and tools. Not a visible link. A plain tag, because pages that set their own metadata alternates would otherwise replace it. */}
+        <link rel="alternate" type="application/rss+xml" title={`${site.name} feed`} href="/rss.xml" />
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
       <body className="flex min-h-dvh flex-col">
