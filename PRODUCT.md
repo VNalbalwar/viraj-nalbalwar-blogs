@@ -25,7 +25,7 @@ Most daily AI-news blogs summarise other people's articles. This one is written 
 ## Operating Context
 
 - Lives at its own free vercel.app URL for now (custom domain is a later one-line switch via a single env var for canonical URLs, RSS and OG images). Must stay on free tiers everywhere.
-- Repo: viraj-blog on GitHub, public.
+- Repo: VNalbalwar/viraj-nalbalwar-blogs on GitHub, public.
 - Publishing pipeline: a systemd user timer on Viraj's Arch machine runs headless Claude Code (`claude -p`, signed in with his Claude Pro login, no API key). It researches, writes an MDX post with `draft: true`, generates cover and motion assets, and opens a pull request with `gh`. Viraj reviews the Vercel preview, merges, and the site publishes. Nothing goes live without his merge. The timer is for this blog only.
 - Timer catches up once after boot if the laptop was off (`Persistent=true`), skips when a post PR is already open, there is no network, or the laptop is on battery. Runs draw from his Pro plan limits, so a failed run (limit hit, login expired) must be logged and retried at the next slot.
 - Cadence: 3 to 4 posts per week, not daily. Cross-posting to dev.to with a canonical URL back to this site comes after launch (Hashnode not used: its agent write access needs a paid plan).

@@ -10,36 +10,30 @@ timer (Mon, Wed, Fri 09:00) -> run.sh -> guards -> worktree -> claude writes pos
 
 ## One-time setup
 
+The repo is `VNalbalwar/viraj-nalbalwar-blogs` and `main` is pushed, so the baseline commit and the remote are already done.
+
 1. **Sign the Claude CLI in** with your Pro account. The desktop app's login is separate, and the timer cannot run until the CLI is signed in:
    ```bash
    claude auth login
    claude auth status      # should say loggedIn: true
    ```
-2. **Make the baseline commit** (the runner branches from `main`):
-   ```bash
-   git add -A && git commit -m "Offcuts: initial site and writer pipeline"
-   ```
-3. **Install the GitHub CLI and log in** (needed to open PRs):
+2. **Install the GitHub CLI and log in** (needed to open PRs):
    ```bash
    sudo pacman -S github-cli
    gh auth login
    ```
-4. **Create the public repo and push**:
-   ```bash
-   gh repo create viraj-blog --public --source . --remote origin --push
-   ```
-5. **Connect Vercel** to that repo (Import Project), then set `NEXT_PUBLIC_SITE_URL` to your site URL. Preview deployments of PR branches give you the review link.
-6. **Test without publishing anything**:
+3. **Connect Vercel** to the repo (Import Project, production branch `main`), then set `NEXT_PUBLIC_SITE_URL` to your site URL. Preview deployments of PR branches give you the review link.
+4. **Test without publishing anything**:
    ```bash
    CHECK_ONLY=1 ./pipeline/run.sh           # guards and lane pick, uses no Claude usage
    DRY_RUN=1 FORCE=1 LANE=quick ./pipeline/run.sh   # real run, short post, nothing pushed
    ```
-7. **Turn on the schedule**:
+5. **Turn on the schedule**:
    ```bash
    ./pipeline/install.sh
    ```
 
-Without step 3 or 4 the runner still works: it commits the post to a local `post/<slug>` branch and sends a desktop notification.
+Without step 2 the runner still works: it commits the post to a local `post/<slug>` branch and sends a desktop notification.
 
 ## What it will and will not do
 

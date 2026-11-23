@@ -259,6 +259,6 @@ elif [ "$HAS_ORIGIN" = 1 ] && [ "$HAS_GH" = 1 ]; then
   PR_URL="$(gh pr create --base "$BASE_BRANCH" --head "post/$SLUG" --title "Post: $TITLE" --body-file "$BODY")"
   notify "New draft post ready for review" "$TITLE - $PR_URL"
 else
-  notify "Post written, but no PR opened" "Branch post/$SLUG is committed locally. Install and log in to gh and add an origin remote (see pipeline/README.md). Review text: $BODY"
+  notify "Post written, but no PR opened" "Branch post/$SLUG is committed locally. Install and log in to gh (see pipeline/README.md). Review text: $BODY"
 fi
 say "done"
