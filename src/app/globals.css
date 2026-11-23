@@ -581,7 +581,7 @@ figure:hover .copy-btn, .copy-btn:focus-visible { opacity: 1; }
 
 /* ─── Post figures: diagrams, stacks, bars, timelines, framed images ───────── */
 .fig-cap { margin-top: 0.8rem; font-family: var(--font-text); font-size: 0.92rem; line-height: 1.5; color: var(--ink-2); }
-.fig-credit { white-space: nowrap; }
+.fig-credit { overflow-wrap: anywhere; }
 .fig-credit a { text-decoration: underline; text-decoration-color: var(--persimmon); text-underline-offset: 0.18em; }
 
 .dg-scroll { overflow-x: auto; overflow-y: hidden; padding-block: 0.4rem; }

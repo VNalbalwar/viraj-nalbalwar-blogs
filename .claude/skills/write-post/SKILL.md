@@ -38,7 +38,7 @@ Read `pipeline/VOICE.md` first and follow it exactly. In particular:
 10. **Ask for approval** with the question tool: Publish, Revise (the author says what to change, then repeat from step 5), or Discard (delete the file).
 11. **On Publish only:**
     - `node pipeline/pipeline.mjs record <slug> <lane> [notes-file]`
-    - `git add content/posts/<slug>.mdx pipeline/state.json [notes-file]` and commit as `post: <title>`
+    - `git add content/posts/<slug>.mdx pipeline/state.json public/posts/<slug>/ [notes-file] [any pipeline or site file you had to fix]` and commit as `post: <title>`
     - `git push origin main` (the push deploys the site automatically)
     - once the deployment is ready, check that `https://viraj-offcuts.vercel.app/posts/<slug>` returns 200 (replace the host if `NEXT_PUBLIC_SITE_URL` changed), then run `node pipeline/indexnow.mjs /posts/<slug> /` to notify Bing and other IndexNow engines
     - tell the author the live URL, and that Google picks the post up through the sitemap (and faster if they request indexing in Search Console).

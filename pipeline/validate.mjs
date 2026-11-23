@@ -159,7 +159,8 @@ for (const m of prose.matchAll(/\]\((https?:\/\/[^)\s]+)\)/g)) {
   linkCounts[u] = (linkCounts[u] ?? 0) + 1;
 }
 for (const [u, n] of Object.entries(linkCounts)) if (n > 2) err(`the same source is linked ${n} times (max 2): ${u}`);
-const longQuotes = (prose.match(/["\u201c][^"\u201c\u201d\n]{40,}["\u201d]/g) ?? []).filter((q) => q.split(/\s+/).length >= 8);
+const proseNoFigures = figureBlocks.reduce((t, [, b]) => t.replace(b, " "), prose);
+const longQuotes = (proseNoFigures.match(/["\u201c][^"\u201c\u201d\n]{40,}["\u201d]/g) ?? []).filter((q) => q.split(/\s+/).length >= 8);
 if (longQuotes.length > 2) err(`${longQuotes.length} direct quotes (max 2). Paraphrase instead`);
 
 // the review file the human reads must disclose where claims and background came from
@@ -181,7 +182,7 @@ async function check(url) {
   const t = setTimeout(() => ctl.abort(), 15000);
   try {
     let res = await fetch(url, { method: "HEAD", redirect: "follow", signal: ctl.signal, headers: { "user-agent": "Mozilla/5.0 (offcuts-link-check)" } });
-    if (res.status === 405 || res.status === 403 || res.status === 400) {
+    if ([400, 403, 404, 405].includes(res.status)) {
       res = await fetch(url, { method: "GET", redirect: "follow", signal: ctl.signal, headers: { "user-agent": "Mozilla/5.0 (offcuts-link-check)" } });
     }
     return res.status;

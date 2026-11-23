@@ -1,4 +1,10 @@
 {
-  "cursor": 0,
-  "covered": []
+  "cursor": 1,
+  "covered": [
+    {
+      "slug": "jensen-huang-nvidia-ceo-resigned-reinstated",
+      "lane": "news",
+      "date": "2026-11-24"
+    }
+  ]
 }

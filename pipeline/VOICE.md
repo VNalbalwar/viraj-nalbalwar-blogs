@@ -39,7 +39,7 @@ The byline is Viraj's. Never mention in the post that it was written, drafted or
 - No `#` heading in the body (the title is the h1). No "Conclusion", "Summary" or "TL;DR" section.
 - End when the content ends: a last useful fact, a caveat or a next step. Do not summarise what you just said.
 - Use at most one `<Callout>` and at most one other component per post, and only when it earns its place. Lists and tables only when the content is a list or a table.
-- Do not add images or cover art. Covers are generated from the slug and tags.
+- Do not add decorative images or cover art: covers are generated from the slug and tags. Images are allowed only as a `<Figure>` that carries evidence, under the Visuals rules below.
 
 ## Words and habits to avoid
 These read as machine-written and the validator rejects most of them: delve, tapestry, landscape (as in "the AI landscape"), game-changer, revolutionize, unlock (the power of), harness, leverage, seamless, robust, cutting-edge, groundbreaking, ever-evolving, fast-paced, realm, journey, embark, elevate, supercharge, unleash, testament, pivotal, crucial, "it's important to note", "in conclusion", "at the end of the day", "dive into", "deep dive", "let's explore", "here's the thing", "not just X but Y", "whether you're a beginner or an expert".
