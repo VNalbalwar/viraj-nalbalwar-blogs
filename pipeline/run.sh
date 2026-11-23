@@ -235,8 +235,14 @@ TITLE="$(node -e 'const m=require("gray-matter");process.stdout.write(m(require(
 node pipeline/pipeline.mjs record "$SLUG" "$POST_LANE" "$NOTES_FILE"
 git add "$POST_FILE" pipeline/state.json ${NOTES_FILE:+"$NOTES_FILE"}
 git commit -q -m "post: $TITLE" -m "Lane: $POST_LANE. Drafted by the Offcuts writer pipeline; reviewed in the pull request before merge."
-git branch -m "$BRANCH" "post/$SLUG"
-BRANCH="post/$SLUG"
+# never collide with an existing branch of the same name (a leftover dry run, say)
+FINAL="post/$SLUG"
+if git show-ref --verify -q "refs/heads/$FINAL" || git ls-remote --exit-code --heads origin "$FINAL" >/dev/null 2>&1; then
+  FINAL="post/$SLUG-$(date +%m%d%H%M)"
+  say "branch post/$SLUG already exists; using $FINAL"
+fi
+git branch -m "$BRANCH" "$FINAL"
+BRANCH="$FINAL"
 PUBLISHED=1
 
 BODY="$STATE_HOME/logs/pr-body-$SLUG.md"
@@ -252,13 +258,13 @@ BODY="$STATE_HOME/logs/pr-body-$SLUG.md"
 
 # ── publish for review ──────────────────────────────────────────────────────
 if [ "$DRY_RUN" = 1 ]; then
-  notify "Offcuts dry run done" "Branch post/$SLUG is committed locally; nothing was pushed."
+  notify "Offcuts dry run done" "Branch $BRANCH is committed locally; nothing was pushed."
   say "dry run: review body saved at $BODY"
 elif [ "$HAS_ORIGIN" = 1 ] && [ "$HAS_GH" = 1 ]; then
-  git push -q -u origin "post/$SLUG"
-  PR_URL="$(gh pr create --base "$BASE_BRANCH" --head "post/$SLUG" --title "Post: $TITLE" --body-file "$BODY")"
+  git push -q -u origin "$BRANCH"
+  PR_URL="$(gh pr create --base "$BASE_BRANCH" --head "$BRANCH" --title "Post: $TITLE" --body-file "$BODY")"
   notify "New draft post ready for review" "$TITLE - $PR_URL"
 else
-  notify "Post written, but no PR opened" "Branch post/$SLUG is committed locally. Install and log in to gh (see pipeline/README.md). Review text: $BODY"
+  notify "Post written, but no PR opened" "Branch $BRANCH is committed locally. Install and log in to gh (see pipeline/README.md). Review text: $BODY"
 fi
 say "done"
