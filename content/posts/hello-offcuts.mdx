@@ -1,0 +1,44 @@
+---
+title: "Offcuts: what this blog is, and who actually writes it"
+description: "Notes on Linux, cloud and AI, with sources linked and a human merge before anything goes live. Here is how a post gets from idea to published."
+date: "2026-11-24"
+tags: ["meta", "process"]
+draft: true
+sources:
+  - title: "Claude Code documentation"
+    url: "https://code.claude.com/docs"
+---
+
+This is a blog about things I try on real machines and what I find out. Some posts are experiments. Some are write-ups of a problem that cost me an evening. Some are news from AI and infrastructure, but only when I can point at the source.
+
+## How a post gets made
+
+A draft is researched and written with Claude, using web search for anything that happened recently. That draft arrives as a pull request. I read it, fix what is wrong or flat, check every link, and only then merge it. Merging is what publishes.
+
+<Callout type="note" title="Why say this out loud">
+Readers should know when a model helped write what they are reading. Saying so also keeps me honest about the review step.
+</Callout>
+
+## The rules posts follow
+
+1. Every claim about the outside world links to where it came from.
+2. If I did not run it, the post says so.
+3. No quote goes in unless I can link the page it came from.
+
+---
+
+## What you will find here
+
+Linux and systems come first, because that is where I spend most of my time. Cloud and DevOps next. Then AI and ML news, written from what I could reproduce, not from a press release.
+
+<Terminal
+  title="a first look"
+  lines={[
+    { cmd: "git log --oneline -3" },
+    { out: "3f2a9c1 post: draft ready for review" },
+    { out: "b71d0e4 site: add feed and sitemap" },
+    { out: "a09c5d7 init" },
+  ]}
+/>
+
+That block is sample output to show how terminal replays look in a post. Real posts use real output.

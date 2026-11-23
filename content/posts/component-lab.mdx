@@ -1,0 +1,88 @@
+---
+title: "Component lab: every block a post can use"
+description: "A working reference for the figures, callouts, terminal replays and compare sliders this blog supports, written so the writing pipeline can copy the syntax."
+date: "2026-11-23"
+tags: ["meta", "reference"]
+draft: true
+---
+
+Every post is plain MDX. This one exists to show the building blocks and the exact syntax for each, so a post never has to guess.
+
+## Code
+
+Fenced blocks get syntax highlighting in both themes and a copy button. A title and highlighted lines are optional.
+
+```ts title="schedule.ts" {2}
+export function nextRun(from: Date, everyHours: number) {
+  return new Date(from.getTime() + everyHours * 3_600_000);
+}
+```
+
+Inline code like `systemctl --user list-timers` is set in the mono face and nothing else is.
+
+## Callouts
+
+<Callout type="tip" title="Use sparingly">
+One callout per section at most. If everything is highlighted, nothing is.
+</Callout>
+
+<Callout type="warn">
+Anything that can lose data goes in a warning, before the command, not after.
+</Callout>
+
+## Terminal replay
+
+Commands type out two characters at a time, like animation shot on twos. The whole transcript stays in the page for screen readers.
+
+<Terminal
+  title="sample session"
+  lines={[
+    { cmd: "echo hello" },
+    { out: "hello" },
+    { cmd: "ls /etc | head -3" },
+    { out: "adjtime" },
+    { out: "alsa" },
+    { out: "arch-release" },
+  ]}
+/>
+
+## Compare
+
+Drag the handle, tap anywhere, or use the arrow keys. Two layers sit on one sheet.
+
+<Compare
+  beforeLabel="Cut A"
+  afterLabel="Cut B"
+  caption="Same space, different seed"
+  before={<Collage seed="before" title="First collage" />}
+  after={<Collage seed="after" title="Second collage" />}
+/>
+
+## Flow
+
+A short process, drawn as paper. Nodes drop in one after another and the connectors march.
+
+<Flow
+  caption="Sample flow, not a real pipeline."
+  steps={[
+    { label: "Idea", note: "A question worth an evening" },
+    { label: "Try it", note: "Run it, break it, write down what happened" },
+    { label: "Check", note: "Link every outside claim" },
+    { label: "Merge", note: "A human reads it first" },
+  ]}
+/>
+
+---
+
+## Tables
+
+| Block | Interactive | Needs JS |
+| --- | --- | --- |
+| Code | Copy button | Only for copy |
+| Callout | No | No |
+| Terminal | Replay, skip | Yes |
+| Compare | Slider | Yes |
+
+## Quotes
+
+> Anything quoted gets a link to where it was said, or it does not go in.
