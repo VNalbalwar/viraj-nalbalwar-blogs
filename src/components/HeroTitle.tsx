@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "motion/react";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { site } from "@/lib/site";
 
 const LETTERS = Array.from(site.name);
@@ -24,19 +24,14 @@ const CLIPS = [
 ];
 
 /**
- * The site name as paper tiles. On load they are tossed in with a spring, one after another.
+ * The site name as paper tiles. On load they are tossed in one after another (a CSS animation, so the
+ * letters are visible in the first paint). Hover and tap are springs.
  * Pointer proximity lifts and turns a tile; a click re-colours it.
  */
 export function HeroTitle() {
   const wrapRef = useRef<HTMLDivElement>(null);
   const [colors, setColors] = useState(() => LETTERS.map((_, i) => i % TILES.length));
   const [near, setNear] = useState<boolean[]>(() => LETTERS.map(() => false));
-  const [settled, setSettled] = useState(false);
-
-  useEffect(() => {
-    const t = setTimeout(() => setSettled(true), 1200);
-    return () => clearTimeout(t);
-  }, []);
 
   function onMove(e: React.PointerEvent) {
     if (e.pointerType === "touch") return;
@@ -67,16 +62,10 @@ export function HeroTitle() {
               className="tile"
               role="presentation"
               onClick={() => recolor(i)}
-              initial={{ y: -260, rotate: rot - 40, opacity: 0 }}
-              animate={{ y: near[i] ? -16 : 0, rotate: near[i] ? rot * -1.8 : rot, scale: near[i] ? 1.07 : 1, opacity: 1 }}
-              whileTap={{ scale: 0.9 }}
-              transition={{
-                type: "spring",
-                stiffness: near[i] || settled ? 420 : 170,
-                damping: near[i] || settled ? 16 : 11,
-                delay: settled ? 0 : 0.15 + i * 0.07,
-              }}
-              style={{ "--tile-bg": c.bg, "--tile-fg": c.fg, clipPath: CLIPS[i % CLIPS.length] } as React.CSSProperties}
+              initial={false}
+              animate={{ y: near[i] ? -16 : 0, rotate: near[i] ? rot * -1.8 : rot, scale: near[i] ? 1.07 : 1 }}
+              transition={{ type: "spring", stiffness: 420, damping: 16 }}
+              style={{ "--tile-bg": c.bg, "--tile-fg": c.fg, clipPath: CLIPS[i % CLIPS.length], animationDelay: `${0.08 + i * 0.07}s` } as React.CSSProperties}
             >
               <span
                 className="tile-boil"

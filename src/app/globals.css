@@ -223,6 +223,7 @@ a.chip:hover, button.chip:hover { border-color: var(--ink); color: var(--ink); }
   will-change: transform;
 }
 .tile > span { display: block; }
+.tile:active { scale: 0.92; }
 .tile-boil { display: block; animation: boil var(--dur, 1.2s) steps(1, end) infinite; animation-delay: var(--delay, 0s); --amp: 2.2; }
 
 /* ─── Header ─────────────────────────────────────────────────────────────── */
@@ -275,7 +276,6 @@ a.chip:hover, button.chip:hover { border-color: var(--ink); color: var(--ink); }
 .prose li + li { margin-top: 0.4em; }
 .prose li::marker { color: var(--action); }
 .prose blockquote {
-  font-style: italic;
   padding: 0.2em 0 0.2em 1.2em;
   margin-left: 0;
   background: linear-gradient(var(--persimmon), var(--persimmon)) left / 4px 100% no-repeat;
@@ -568,3 +568,12 @@ figure:hover .copy-btn, .copy-btn:focus-visible { opacity: 1; }
 .portrait-sm { position: relative; width: 4.75rem; height: 4.75rem; flex: none; }
 .portrait-sm-bg { position: absolute; inset: 0; translate: -5px 5px; background: var(--persimmon); clip-path: polygon(6% 0, 100% 10%, 92% 100%, 0 90%); rotate: -6deg; }
 .portrait-sm-img { position: relative; width: 100%; height: 100%; object-fit: cover; clip-path: polygon(3% 2%, 98% 0, 100% 97%, 0 100%); }
+
+/* ─── First-paint-safe entrances: CSS only, so nothing waits for JavaScript ─── */
+@keyframes page-in { from { opacity: 0; transform: translateY(8px); } }
+.page-in { animation: page-in 0.35s var(--ease-out) backwards; }
+@keyframes kt-rise { from { transform: translateY(115%) rotate(5deg); } }
+.kt-word { display: inline-block; animation: kt-rise 0.8s var(--ease-out) backwards; }
+@keyframes toss { from { transform: translateY(-160px) rotate(-38deg); } }
+.tile { animation: toss 0.85s var(--ease-out) backwards; }
+@media (prefers-reduced-motion: reduce) { .page-in, .kt-word, .tile { animation: none; } }

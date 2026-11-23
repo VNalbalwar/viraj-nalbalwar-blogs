@@ -38,9 +38,9 @@ Post body in MDX.
 
 `content/posts/component-lab.mdx` documents every block a post can use (code, callouts, terminal replay, compare slider, flow diagram, section breaks).
 
-## The writer pipeline
+## Writing posts
 
-A timer on the author's laptop runs headless Claude Code, which researches and drafts one post, then a validator checks it and a pull request is opened for review. Nothing publishes until the PR is merged. Setup and details: [pipeline/README.md](pipeline/README.md).
+There is no scheduler. Open Claude Code in this repo and ask for a post (`/write-post`, optionally with a lane or topic). It researches, writes, validates and builds the post, shows it to you with its sources, and publishes (commit, push, deploy) only after you approve. Details: [pipeline/README.md](pipeline/README.md).
 
 ## Layout
 
@@ -49,7 +49,7 @@ content/posts/   MDX posts
 src/app/         routes (home, posts, tags, rss.xml, sitemap, OG images)
 src/components/  UI, collage covers, motion, MDX components
 src/lib/         content loader, collage generator, site config
-pipeline/        writer pipeline: prompts, validator, runner, systemd timer
+pipeline/        post workflow: voice rules, validator, lane picker, IndexNow ping
 PRODUCT.md       product context
 DESIGN.md        design system as built
 ```

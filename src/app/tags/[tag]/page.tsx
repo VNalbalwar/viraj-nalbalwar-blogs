@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { PostRow } from "@/components/PostRow";
 import { getAllPosts, getAllTags, tagSlug } from "@/lib/posts";
+import { MIN_POSTS_FOR_TAG_PAGE, robotsFor } from "@/lib/seo";
 
 type Props = { params: Promise<{ tag: string }> };
 
@@ -19,6 +20,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title: `Posts tagged ${found.tag}`,
     description: `Every Offcuts post tagged ${found.tag}.`,
     alternates: { canonical: `/tags/${tag}` },
+    // thin tag pages stay crawlable (links are followed) but out of the index
+    robots: robotsFor({ index: found.count >= MIN_POSTS_FOR_TAG_PAGE }),
   };
 }
 

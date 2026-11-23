@@ -6,13 +6,16 @@ import remarkGfm from "remark-gfm";
 import rehypeSlug from "rehype-slug";
 import rehypePrettyCode from "rehype-pretty-code";
 import { AuthorBio } from "@/components/AuthorBio";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { Collage } from "@/components/Collage";
 import { KineticTitle } from "@/components/KineticTitle";
 import { mdxComponents } from "@/components/mdx";
 import { ReadingProgress } from "@/components/ReadingProgress";
+import { RelatedPosts } from "@/components/RelatedPosts";
 import { Toc } from "@/components/Toc";
 import { formatDate, getAllPosts, getPost, tagSlug } from "@/lib/posts";
-import { author as authorInfo } from "@/content/author";
+import { JsonLd, PERSON_ID, WEBSITE_ID, breadcrumbNode, personNode } from "@/lib/jsonld";
+import { robotsFor } from "@/lib/seo";
 import { absoluteUrl, site } from "@/lib/site";
 
 type Props = { params: Promise<{ slug: string }> };
@@ -29,7 +32,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title: post.title,
     description: post.description,
     alternates: { canonical: `/posts/${post.slug}` },
-    robots: post.draft ? { index: false, follow: false } : undefined,
+    robots: robotsFor({ draft: post.draft, follow: !post.draft }),
     openGraph: {
       type: "article",
       title: post.title,
@@ -41,6 +44,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       tags: post.tags,
     },
     twitter: { card: "summary_large_image", title: post.title, description: post.description },
+    other: { "article:section": post.tags[0] ?? "" },
   };
 }
 
@@ -60,16 +64,35 @@ export default async function PostPage({ params }: Props) {
   const newer = all[i - 1];
   const older = all[i + 1];
 
+  const url = absoluteUrl(`/posts/${post.slug}`);
+  const words = post.content.replace(/```[\s\S]*?```/g, " ").replace(/<[^>]+>/g, " ").split(/\s+/).filter(Boolean).length;
   const jsonLd = {
     "@context": "https://schema.org",
-    "@type": "BlogPosting",
-    headline: post.title,
-    description: post.description,
-    datePublished: post.date,
-    dateModified: post.updated ?? post.date,
-    author: { "@type": "Person", name: authorInfo.name, url: absoluteUrl("/about"), image: absoluteUrl(authorInfo.photo) },
-    mainEntityOfPage: absoluteUrl(`/posts/${post.slug}`),
-    keywords: post.tags.join(", "),
+    "@graph": [
+      {
+        "@type": "BlogPosting",
+        "@id": `${url}#article`,
+        headline: post.title,
+        description: post.description,
+        datePublished: post.date,
+        dateModified: post.updated ?? post.date,
+        inLanguage: "en",
+        wordCount: words,
+        keywords: post.tags.join(", "),
+        articleSection: post.tags[0],
+        image: absoluteUrl(`/posts/${post.slug}/opengraph-image`),
+        mainEntityOfPage: { "@type": "WebPage", "@id": url },
+        author: personNode(),
+        publisher: { "@id": PERSON_ID },
+        isPartOf: { "@id": WEBSITE_ID },
+        url,
+      },
+      breadcrumbNode([
+        { name: "Home", path: "/" },
+        { name: "Posts", path: "/posts" },
+        { name: post.title, path: `/posts/${post.slug}` },
+      ]),
+    ],
   };
 
   return (
@@ -77,6 +100,7 @@ export default async function PostPage({ params }: Props) {
       <ReadingProgress />
       <article className="wrap pb-8 pt-6">
         <header className="mb-10 grid gap-5">
+          <Breadcrumbs items={[{ name: "Home", path: "/" }, { name: "Posts", path: "/posts" }, { name: post.title }]} />
           <p className="t-meta m-0">
             {formatDate(post.date)} · {post.minutes} min read
             {post.draft && <span className="chip ml-3">Draft, not published</span>}
@@ -138,6 +162,8 @@ export default async function PostPage({ params }: Props) {
               </section>
             )}
 
+            <RelatedPosts current={post} all={all} />
+
             <div className="mt-16">
               <AuthorBio />
             </div>
@@ -161,7 +187,7 @@ export default async function PostPage({ params }: Props) {
           </div>
         </div>
       </article>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <JsonLd data={jsonLd} />
     </>
   );
 }

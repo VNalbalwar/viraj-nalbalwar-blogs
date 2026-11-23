@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { HeroTitle } from "@/components/HeroTitle";
 import { Scraps } from "@/components/Scraps";
@@ -6,6 +7,12 @@ import { FeaturePost, PostRow } from "@/components/PostRow";
 import { getAllPosts } from "@/lib/posts";
 import { author } from "@/content/author";
 import { site } from "@/lib/site";
+
+export const metadata: Metadata = {
+  title: { absolute: `${site.name} | Linux, cloud and AI notes by ${author.name}` },
+  description: site.description,
+  alternates: { canonical: "/" },
+};
 
 export default function Home() {
   const posts = getAllPosts();

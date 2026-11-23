@@ -1,12 +1,4 @@
-"use client";
-
-import { motion } from "motion/react";
-
-/** Re-mounts on every navigation, so each page settles in. Kept short so it never feels like waiting. */
+/** Re-mounts on every navigation, so each page settles in. Pure CSS (see .page-in), so content is visible without waiting for JavaScript. */
 export default function Template({ children }: { children: React.ReactNode }) {
-  return (
-    <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}>
-      {children}
-    </motion.div>
-  );
+  return <div className="page-in">{children}</div>;
 }

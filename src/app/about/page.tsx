@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { KineticTitle } from "@/components/KineticTitle";
 import { Portrait } from "@/components/Portrait";
 import { author, bio, experience, facts, research, socials } from "@/content/author";
+import { JsonLd, breadcrumbNode, personNode } from "@/lib/jsonld";
 import { absoluteUrl, site } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -13,13 +14,13 @@ export const metadata: Metadata = {
 export default function AboutPage() {
   const jsonLd = {
     "@context": "https://schema.org",
-    "@type": "Person",
-    name: author.name,
-    url: absoluteUrl("/about"),
-    image: absoluteUrl(author.photo),
-    address: { "@type": "PostalAddress", addressLocality: "Pune", addressRegion: "Maharashtra", addressCountry: "IN" },
-    sameAs: [author.portfolio, ...socials.map((s) => s.href)],
-    knowsAbout: ["Kubernetes", "Linux", "Cloud infrastructure", "GPU performance"],
+    "@graph": [
+      { "@type": "ProfilePage", "@id": absoluteUrl("/about"), url: absoluteUrl("/about"), name: `About ${author.name}`, inLanguage: "en", mainEntity: personNode() },
+      breadcrumbNode([
+        { name: "Home", path: "/" },
+        { name: "About", path: "/about" },
+      ]),
+    ],
   };
 
   return (
@@ -122,7 +123,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <JsonLd data={jsonLd} />
     </div>
   );
 }

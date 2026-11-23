@@ -3,6 +3,8 @@ import { Bricolage_Grotesque, Literata, JetBrains_Mono } from "next/font/google"
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Providers } from "@/components/Providers";
+import { JsonLd, websiteNode } from "@/lib/jsonld";
+import { robotsFor } from "@/lib/seo";
 import { site } from "@/lib/site";
 import "./globals.css";
 
@@ -14,8 +16,6 @@ const bricolage = Bricolage_Grotesque({
 });
 const literata = Literata({
   subsets: ["latin"],
-  style: ["normal", "italic"],
-  axes: ["opsz"],
   variable: "--font-literata",
   display: "swap",
 });
@@ -23,18 +23,26 @@ const jetbrains = JetBrains_Mono({
   subsets: ["latin"],
   variable: "--font-jetbrains",
   display: "swap",
+  preload: false, // only code blocks use it, so it should not compete with the fonts every page needs
 });
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
-  title: { default: `${site.name}: ${site.tagline}`, template: `%s | ${site.name}` },
+  title: { default: `${site.name} | Linux, cloud and AI notes by ${site.author}`, template: `%s | ${site.name}` },
   description: site.description,
   applicationName: site.name,
-  authors: [{ name: site.author, url: site.portfolio }],
-  alternates: { canonical: "/", types: { "application/rss+xml": "/rss.xml" } },
+  authors: [{ name: site.author, url: `${site.url}/about` }],
+  creator: site.author,
+  publisher: site.author,
+  alternates: { types: { "application/rss+xml": "/rss.xml" } },
   openGraph: { type: "website", siteName: site.name, locale: "en_IN" },
   twitter: { card: "summary_large_image" },
-  robots: { index: true, follow: true },
+  robots: robotsFor(),
+  // Search Console and Bing Webmaster ownership checks. Set the env vars on Vercel to enable.
+  verification: {
+    google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION,
+    other: process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION ? { "msvalidate.01": process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION } : undefined,
+  },
 };
 
 export const viewport: Viewport = {
@@ -58,6 +66,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
       <body className="flex min-h-dvh flex-col">
+        <JsonLd data={{ "@context": "https://schema.org", ...websiteNode() }} />
         <Providers>
           <a href="#main" className="skip">
             Skip to content

@@ -41,6 +41,7 @@ if (!/^[a-z0-9]+(-[a-z0-9]+)*$/.test(slug)) err(`filename "${slug}" must be keba
 if (typeof fm.title !== "string" || !fm.title.trim()) err("missing title");
 else {
   if (fm.title.length > 90) err(`title is ${fm.title.length} chars (max 90)`);
+  else if (fm.title.length > 65) warn(`title is ${fm.title.length} chars; search results cut titles off around 60`);
   if (/[A-Z]{6,}/.test(fm.title)) err("title has shouting capitals");
   if (/you won'?t believe|number \d+ will|this one trick/i.test(fm.title)) err("clickbait title");
 }
