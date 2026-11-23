@@ -1,0 +1,13 @@
+[Unit]
+Description=Offcuts writer schedule (Mon, Wed, Fri, 09:00 local time)
+
+[Timer]
+OnCalendar=Mon,Wed,Fri *-*-* 09:00:00
+# if the laptop was off at 09:00, run once shortly after the next boot or login
+Persistent=true
+RandomizedDelaySec=10min
+AccuracySec=1min
+Unit=offcuts-writer.service
+
+[Install]
+WantedBy=timers.target

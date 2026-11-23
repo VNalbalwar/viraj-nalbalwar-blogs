@@ -1,0 +1,15 @@
+[Unit]
+Description=Offcuts writer: research and draft one blog post as a pull request
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+WorkingDirectory=@REPO@
+ExecStart=@REPO@/pipeline/run.sh
+Environment=OFFCUTS_REPO=@REPO@
+Environment=PATH=@PATH@
+# a heavy run should never fight the desktop for the CPU or disk
+Nice=10
+IOSchedulingClass=idle
+TimeoutStartSec=55min
