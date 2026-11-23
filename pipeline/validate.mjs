@@ -14,6 +14,7 @@ const args = process.argv.slice(2);
 const file = args.find((a) => !a.startsWith("--"));
 const laneName = args[args.indexOf("--lane") + 1];
 const offline = args.includes("--offline");
+const reviewPath = args.includes("--review") ? args[args.indexOf("--review") + 1] : null;
 if (!file || !laneName) {
   console.error("usage: validate.mjs <file> --lane <lane> [--offline]");
   process.exit(2);
@@ -116,6 +117,29 @@ const bodyLinks = [...prose.matchAll(/\]\((https?:\/\/[^)\s]+)\)/g)].map((m) => 
 for (const l of bodyLinks) {
   const norm = l.replace(/#.*$/, "").replace(/\/$/, "");
   if (!sourceUrls.has(norm)) err(`body link not listed in sources: ${l}`);
+}
+
+// repeated links and heavy quoting
+const linkCounts = {};
+for (const m of prose.matchAll(/\]\((https?:\/\/[^)\s]+)\)/g)) {
+  const u = m[1].replace(/#.*$/, "").replace(/\/$/, "");
+  linkCounts[u] = (linkCounts[u] ?? 0) + 1;
+}
+for (const [u, n] of Object.entries(linkCounts)) if (n > 2) err(`the same source is linked ${n} times (max 2): ${u}`);
+const longQuotes = (prose.match(/["\u201c][^"\u201c\u201d\n]{40,}["\u201d]/g) ?? []).filter((q) => q.split(/\s+/).length >= 8);
+if (longQuotes.length > 2) err(`${longQuotes.length} direct quotes (max 2). Paraphrase instead`);
+
+// the review file the human reads must disclose where claims and background came from
+if (reviewPath) {
+  if (!fs.existsSync(reviewPath)) err(`${reviewPath} is missing: the writer must produce the review file`);
+  else {
+    const review = fs.readFileSync(reviewPath, "utf8");
+    for (const h of ["What this post says", "Claims to verify", "Background knowledge used", "Opinions I put in", "Things I could not confirm"]) {
+      if (!new RegExp(`^##\\s+${h}`, "mi").test(review)) err(`${reviewPath} is missing the "## ${h}" section`);
+    }
+    const bg = review.split(/^##\s+Background knowledge used/mi)[1]?.split(/^##\s/m)[0] ?? "";
+    if (bg.trim() && !/^\W*none\W*$/i.test(bg.trim())) warn("the writer admitted statements from general knowledge: check the Background knowledge section of the PR");
+  }
 }
 
 // ── links resolve ──────────────────────────────────────────────────────────

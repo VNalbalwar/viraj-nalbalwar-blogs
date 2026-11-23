@@ -17,7 +17,8 @@ Read `pipeline/topics.md` for the topic bank and for what to prioritise. You may
 4. Re-read the post once against `pipeline/VOICE.md` and fix anything that breaks a rule. Check every number and link against your notes.
 5. Write `REVIEW.md` in the repository root (it is not published; it becomes the pull request description). Use exactly these headings:
    - `## What this post says` (2 sentences)
-   - `## Claims to verify` (a bullet per factual claim with the source URL it came from)
+   - `## Claims to verify` (a bullet per factual statement in the post, including every explanation of how or why something works, each with the source URL it came from)
+   - `## Background knowledge used` (every statement that is NOT supported by a page you fetched in this run. The goal is zero; remove such statements from the post instead of listing them, unless you cannot. Write "None" only if it is truly none)
    - `## Opinions I put in` (bullets; or "None")
    - `## Things I could not confirm` (bullets; or "None")
 6. Update nothing else. Do not edit `pipeline/state.json` or any code. Do not run commands; you have no shell.

@@ -206,7 +206,7 @@ say "post: $POST_FILE"
 [ -f REVIEW.md ] || say "warn: no REVIEW.md written; the PR will have a generic description"
 
 # ── validate (one repair pass) ──────────────────────────────────────────────
-validate() { node pipeline/validate.mjs "$POST_FILE" --lane "$POST_LANE" 2>&1; }
+validate() { node pipeline/validate.mjs "$POST_FILE" --lane "$POST_LANE" --review REVIEW.md 2>&1; }
 if ! VOUT="$(validate)"; then
   say "validator found problems:"; echo "$VOUT"
   claude_run "The validator rejected the post you just wrote. Fix every ERROR below in $POST_FILE (rewrite the offending sentences naturally; do not just swap words). Do not add claims you cannot source. Keep REVIEW.md accurate. Validator output:
