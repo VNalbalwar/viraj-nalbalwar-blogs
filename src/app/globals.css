@@ -239,9 +239,6 @@ a.chip:hover, button.chip:hover { border-color: var(--ink); color: var(--ink); }
 .nav-link:hover { background: var(--paper-2); }
 @media (max-width: 479px) { .nav-link { padding-inline: 0.55rem; } }
 @media (max-width: 399px) { .nav-link { padding-inline: 0.35rem; } }
-/* RSS stays in the footer on phones to keep the header on one row */
-.nav-link.nav-rss { display: none; }
-@media (min-width: 640px) { .nav-link.nav-rss { display: inline-flex; } }
 .nav-link[aria-current="page"] { background: var(--ink); color: var(--paper); }
 
 /* ─── Post rows ──────────────────────────────────────────────────────────── */

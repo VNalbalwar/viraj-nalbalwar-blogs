@@ -22,9 +22,6 @@ export function Footer() {
           <a href={author.portfolio} className="ulink" target="_blank" rel="noopener noreferrer">
             Portfolio
           </a>
-          <a href="/rss.xml" className="ulink">
-            RSS
-          </a>
         </p>
       </div>
     </footer>

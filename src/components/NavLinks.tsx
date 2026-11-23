@@ -23,9 +23,6 @@ export function NavLinks() {
           {l.label}
         </Link>
       ))}
-      <a href="/rss.xml" className="nav-link nav-rss">
-        RSS
-      </a>
     </>
   );
 }
