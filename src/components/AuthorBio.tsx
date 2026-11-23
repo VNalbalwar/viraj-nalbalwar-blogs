@@ -10,7 +10,7 @@ export function AuthorBio({ heading = "Written by Viraj" }: { heading?: string }
       <div className="grid gap-2">
         <p className="m-0 text-lg font-bold tracking-tight">{heading}</p>
         <p className="m-0 text-ink-2" style={{ fontFamily: "var(--font-text)" }}>
-          {author.name} is a computer engineering student in Pune. {author.tagline}
+          {author.tagline}
         </p>
         <p className="m-0 flex flex-wrap gap-x-5 gap-y-1 text-[0.95rem]">
           <Link href="/about" className="ulink font-semibold">

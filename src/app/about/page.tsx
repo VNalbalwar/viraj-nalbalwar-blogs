@@ -7,7 +7,7 @@ import { absoluteUrl, site } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "About Viraj",
-  description: `${author.name} is a computer engineering student in ${author.location.split(",")[0]} working on cloud infrastructure, Linux and GPU performance research. He writes this blog.`,
+  description: `${author.name} works on cloud infrastructure, Linux and GPU performance research, and writes this blog from ${author.location.split(",")[0]}.`,
   alternates: { canonical: "/about" },
 };
 

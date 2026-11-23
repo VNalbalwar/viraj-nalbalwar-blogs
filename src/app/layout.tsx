@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Bricolage_Grotesque, Literata, JetBrains_Mono } from "next/font/google";
+import { Bricolage_Grotesque, Nunito, JetBrains_Mono } from "next/font/google";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Providers } from "@/components/Providers";
@@ -14,9 +14,10 @@ const bricolage = Bricolage_Grotesque({
   variable: "--font-bricolage",
   display: "swap",
 });
-const literata = Literata({
+// Reading face: rounded stroke endings and soft curves, readable at paragraph sizes.
+const nunito = Nunito({
   subsets: ["latin"],
-  variable: "--font-literata",
+  variable: "--font-reading",
   display: "swap",
 });
 const jetbrains = JetBrains_Mono({
@@ -60,7 +61,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${bricolage.variable} ${literata.variable} ${jetbrains.variable}`}
+      className={`${bricolage.variable} ${nunito.variable} ${jetbrains.variable}`}
     >
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />

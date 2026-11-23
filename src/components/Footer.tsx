@@ -11,7 +11,7 @@ export function Footer() {
           <Link href="/about" className="ulink text-ink">
             {author.name}
           </Link>
-          , a computer engineering student in Pune.
+          .
         </p>
         <p className="m-0 flex flex-wrap gap-x-5 gap-y-1">
           {socials.slice(0, 2).map((s) => (

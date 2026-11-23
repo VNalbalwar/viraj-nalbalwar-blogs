@@ -19,7 +19,7 @@ Paper colours are used for shapes only, never for text: persimmon `#ff4f2e`, sun
 ## Type
 
 - Display and UI: Bricolage Grotesque (variable: opsz, wdth, wght). Titles use `wdth 88` and weight 700; wordmark tiles use weight 800 and narrow to `wdth 78` on hover.
-- Reading: Literata at about 18px, line height 1.75, measure 66ch.
+- Reading: Nunito (rounded stroke endings, soft curves) at about 18px, line height 1.72, measure 66ch.
 - Code only: JetBrains Mono. Mono is never used for headings or running text.
 
 ## Shape and depth
