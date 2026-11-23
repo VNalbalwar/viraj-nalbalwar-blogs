@@ -4,6 +4,7 @@ import matter from "gray-matter";
 import readingTime from "reading-time";
 import GithubSlugger from "github-slugger";
 import { tagSlug } from "./format";
+import { MOTIFS, PAPERS, type MotifKind, type Paper } from "./collage";
 
 export { formatDate, tagSlug } from "./format";
 
@@ -22,6 +23,10 @@ export type Post = {
   draft: boolean;
   sources: Source[];
   cover?: string;
+  /** paper colour this post wears (cover ground piece, progress bar, contents marker) */
+  accent?: Paper;
+  /** pinned topic scene for the cover; otherwise the tags choose */
+  motif?: MotifKind;
   minutes: number;
   headings: Heading[];
   content: string;
@@ -81,6 +86,9 @@ function readPost(file: string): Post {
       })
     : [];
 
+  if (data.accent !== undefined && !(PAPERS as readonly string[]).includes(data.accent)) fail(file, `\`accent\` must be one of: ${PAPERS.join(", ")}`);
+  if (data.motif !== undefined && !(MOTIFS as readonly string[]).includes(data.motif)) fail(file, `\`motif\` must be one of: ${MOTIFS.join(", ")}`);
+
   return {
     slug,
     title: data.title,
@@ -91,6 +99,8 @@ function readPost(file: string): Post {
     draft: data.draft === true,
     sources,
     cover: data.cover ? String(data.cover) : undefined,
+    accent: data.accent as Paper | undefined,
+    motif: data.motif as MotifKind | undefined,
     minutes: Math.max(1, Math.round(readingTime(content).minutes)),
     headings: extractHeadings(content),
     content,

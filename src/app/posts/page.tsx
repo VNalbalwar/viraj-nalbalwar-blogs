@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 };
 
 export default function PostsPage() {
-  const posts = getAllPosts().map(({ slug, title, description, date, tags, minutes, draft }) => ({
+  const posts = getAllPosts().map(({ slug, title, description, date, tags, minutes, draft, accent, motif }) => ({
     slug,
     title,
     description,
@@ -17,6 +17,8 @@ export default function PostsPage() {
     tags,
     minutes,
     draft,
+    accent,
+    motif,
   }));
   const tags = getAllTags().map((t) => t.tag);
   return (

@@ -2,7 +2,7 @@
 
 import { motion, useMotionValue, useScroll, useTransform, type MotionValue, type Variants } from "motion/react";
 import { useRef } from "react";
-import { H, W, makeCollage, type Piece } from "@/lib/collage";
+import { H, W, makeCollage, type MotifKind, type Paper, type Piece } from "@/lib/collage";
 import { Motif, motifFor } from "./Motif";
 
 const group: Variants = {
@@ -49,13 +49,17 @@ type Props = {
   title?: string;
   /** tags pick a topic scene that sits on top of the collage */
   tags?: string[];
+  /** pin the topic scene instead of letting the tags choose */
+  motif?: MotifKind;
+  /** the paper colour laid down first as the ground piece */
+  accent?: Paper;
   /** pieces drift at different depths while the page scrolls */
   parallax?: boolean;
 };
 
-function Frame({ seed, title, tags, progress, svgRef }: Props & { progress?: MotionValue<number>; svgRef?: React.Ref<SVGSVGElement> }) {
-  const pieces = makeCollage(seed);
-  const kind = motifFor(tags);
+function Frame({ seed, title, tags, motif, accent, progress, svgRef }: Props & { progress?: MotionValue<number>; svgRef?: React.Ref<SVGSVGElement> }) {
+  const pieces = makeCollage(seed, accent);
+  const kind = motifFor(tags, motif);
   return (
     <motion.svg
       ref={svgRef}

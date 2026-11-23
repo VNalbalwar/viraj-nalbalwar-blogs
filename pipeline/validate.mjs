@@ -88,7 +88,39 @@ if (/^# /m.test(content.replace(/```[\s\S]*?```/g, ""))) err('body has a "#" hea
 if (/^##\s+(conclusion|summary|tl;?dr|final thoughts|wrapping up)/im.test(content)) err("remove the conclusion/summary section");
 if ((content.match(/<Callout/g) ?? []).length > 1) err("more than one <Callout>");
 if ((content.match(/^---\s*$/gm) ?? []).length > 1) err("more than one section break");
-if (/!\[[^\]]*\]\(/.test(content)) err("no images (covers are generated)");
+if (/!\[[^\]]*\]\(/.test(content)) err("no markdown images: use <Figure> (with alt, caption and credit) when a picture is the evidence");
+
+// ── identity and visuals ────────────────────────────────────────────────────
+// keep these lists in sync with PAPERS and MOTIFS in src/lib/collage.ts
+const ACCENTS = ["persimmon", "sun", "leaf", "blush", "pine"];
+const MOTIFS = ["terminal", "cloud", "chip", "nodes", "lock", "doc", "database", "container", "clock", "branch", "chart", "globe"];
+if (fm.accent === undefined) warn("no `accent` in frontmatter (the post will wear its slug's default colour)");
+else if (!ACCENTS.includes(fm.accent)) err(`accent must be one of: ${ACCENTS.join(", ")}`);
+if (fm.motif !== undefined && !MOTIFS.includes(fm.motif)) err(`motif must be one of: ${MOTIFS.join(", ")}`);
+
+const FIGURES = ["Diagram", "Stack", "Bars", "Timeline", "Figure", "Flow", "Compare"];
+function blocksOf(name) {
+  const out = [];
+  const re = new RegExp(`<${name}\\b`, "g");
+  let m;
+  while ((m = re.exec(content))) {
+    const rest = content.slice(m.index);
+    const end = rest.search(/\n\/>|\/>\s*(\n|$)|<\/[A-Za-z]+>/);
+    out.push(rest.slice(0, end > 0 ? end : 3000));
+  }
+  return out;
+}
+const figureBlocks = FIGURES.flatMap((n) => blocksOf(n).map((b) => [n, b]));
+if (laneName !== "quick" && figureBlocks.length === 0) err("add at least one visual (Diagram, Stack, Bars, Timeline, Compare, Flow or Figure) designed for this post");
+if (figureBlocks.length > 3) err(`${figureBlocks.length} figures (max 3)`);
+for (const [n, b] of figureBlocks) {
+  if (n !== "Compare" && !/\bcaption\s*=/.test(b)) err(`<${n}> needs a caption that says what it shows`);
+  if (n === "Figure") {
+    if (!/\balt\s*=/.test(b)) err("<Figure> needs alt text");
+    if (!/\bcredit\s*=/.test(b)) err("<Figure> needs a credit (where the image came from, and the licence if it is not the author's)");
+    if (!/\bsrc\s*=\s*["']\/posts\//.test(b)) err("<Figure> src must be a local file in /posts/<slug>/ (never hotlink)");
+  }
+}
 
 const slop = [
   "delve", "tapestry", "game-changer", "game changer", "revolutionize", "revolutionise", "unlock the", "harness the",

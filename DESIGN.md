@@ -43,6 +43,12 @@ The author's photo (`public/viraj-nalbalwar.jpg`) is shown cut out with scissors
 
 Left aligned. Page width 78rem with fluid gutters. Home is the wordmark, one sentence, the newest post as a wide feature, then ruled rows (collage thumbnail, title and description, date). Posts use a sticky contents rail (desktop) beside a 66ch column. No kickers, no stat rows, no identical-card grids.
 
+## Post identity and figures
+
+Every post wears one paper colour (`accent` in frontmatter, else the colour its slug lays down first): it is the cover's ground piece, the reading bar, the contents marker and the social image. The cover's topic scene comes from the tags or a pinned `motif` (terminal, cloud, chip, nodes, lock, doc, database, container, clock, branch, chart, globe).
+
+Figures are designed per post from its own content, never from a template: `Diagram` (paper nodes, arrows, packets hopping along flow edges in stepped frames, hover to follow a node, auto-written screen-reader description), `Stack` (layers), `Bars` (numbers from a cited source), `Timeline`, `Compare`, `Flow`, and `Figure` (a framed image with alt text and a credit). One to three per post, each with a caption. On phones a diagram scrolls sideways inside its frame with a fade and a hint.
+
 ## Writing components (MDX)
 
 `<Callout type="note|tip|warn" title?>`, `<Terminal title lines={[{cmd}|{out}]}/>`, `<Compare before after beforeLabel afterLabel caption/>`, `<Collage seed title/>`, fenced code with `title="…"` and `{2,4-6}` line highlights, `---` for a scissor-cut section break.

@@ -49,9 +49,30 @@ These read as machine-written and the validator rejects most of them: delve, tap
 - Do not open three paragraphs in a row with the same word. Do not write in triplets every time ("fast, simple and reliable").
 - No hedging pile-ups ("may potentially", "could possibly"). Say it or cut it.
 
+## Visuals (every post, except a quick take, needs one)
+Each post should look like itself while staying plainly Offcuts: cut paper, the five paper colours, stepped motion. The visuals are designed from the post's own content, not picked from a menu.
+
+1. Decide what the reader needs to *see*, and pick the figure that shows it:
+   - a path or a set of connected parts: `<Diagram>` (nodes, arrows, packets that hop along the flow edges)
+   - layers or "this sits on that": `<Stack>`
+   - numbers to compare: `<Bars>` (only numbers that come from a cited source; name the source in the caption)
+   - things in time: `<Timeline>`
+   - before and after: `<Compare>`; a sequence of steps: `<Flow>`
+   - a screenshot or photo that carries information a diagram cannot: `<Figure>`
+2. One to three visuals per post, never more. Each earns its place: it explains something faster than the prose can. Place it right after the paragraph that introduces it.
+3. Every figure has a `caption` that says what it shows. A diagram that illustrates an idea instead of showing real data says so ("An illustration, not a measurement: ...").
+4. Design each diagram for this post: choose the nodes, their order, which edge is dashed, which node gets the persimmon highlight, what the packet is carrying. Do not reuse the sample layouts from component-lab. At most four nodes in a row, at least 25 percent apart; use `\n` in a label for two lines.
+5. Give the post its own identity in frontmatter: `accent` (one of persimmon, sun, leaf, blush, pine) and, when the tags do not already pick a good scene, `motif` (terminal, cloud, chip, nodes, lock, doc, database, container, clock, branch, chart, globe). Check the accents already used (`grep -h "^accent" content/posts/*.mdx`) and pick a different one from the last post.
+6. Use only the toolkit. No new colours, no new fonts, no emoji, no clip art, no gradients.
+7. Images (`<Figure>`): only when a picture is the evidence. Use screenshots the author supplies, or openly licensed or public-domain images, and record the source and licence in `credit` and `creditHref`. Never hotlink: save the file in `public/posts/<slug>/`, resize it (at most 1400px wide, webp or jpg), and give it real `alt` text. Do not generate photorealistic images. If the author asks for a generated illustration, say how it was made in `credit`.
+8. Every number, label and relationship in a figure is a claim: it goes in REVIEW (Claims to verify) with its source, like any sentence in the post.
+
 ## Components available (MDX)
 - `<Callout type="note|tip|warn" title="optional">text</Callout>`
 - `<Terminal title="..." lines={[{ cmd: "..." }, { out: "..." }]} />` (out lines only in the notes lane)
 - `<Compare before={...} after={...} />`, `<Flow steps={[{ label, note }]} caption="..." />`
+- `<Diagram nodes={[{ id, label, note?, x, y, tone? }]} edges={[{ from, to, label?, kind?: "flow"|"dashed"|"both" }]} height={300} caption="..." />` (x and y are percentages)
+- `<Stack layers={[{ label, note? }]} caption="..." />`, `<Bars items={[{ label, value, note? }]} unit="ms" highlight={1} caption="..." />`, `<Timeline events={[{ date, label, note? }]} caption="..." />`
+- `<Figure src="/posts/<slug>/file.webp" alt="..." caption="..." credit="..." creditHref="..." width={1200} height={675} />`
 - Fenced code with a language, optional `title="file.ts"` and `{2,4-6}` line highlights.
 - `---` on its own line draws an animated section break. Use at most once.

@@ -19,7 +19,7 @@ export default async function Image({ params }: { params: Promise<{ slug: string
     (
       <div style={{ width: "100%", height: "100%", display: "flex", background: "#faf9f7", position: "relative" }}>
         <div style={{ position: "absolute", inset: 0, display: "flex" }}>
-          <OgCollage seed={slug} width={1200} height={630} />
+          <OgCollage seed={slug} width={1200} height={630} accent={post?.accent} />
         </div>
         <div
           style={{

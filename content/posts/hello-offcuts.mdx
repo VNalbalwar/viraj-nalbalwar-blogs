@@ -4,6 +4,8 @@ description: "Linux, cloud and AI notes by Viraj Nalbalwar, with every outside c
 date: "2026-11-24"
 tags: ["meta", "linux", "cloud"]
 draft: false
+accent: "leaf"
+motif: "nodes"
 sources:
   - title: "Viraj Nalbalwar, portfolio"
     url: "https://viraj-verse.vercel.app"
@@ -12,6 +14,24 @@ sources:
 I like it when systems misbehave. A cluster that slows down for no reason, a Linux box that was fine until it wasn't, a shared GPU where one workload quietly hogs the rest. I keep poking until I know why.
 
 This blog is where that poking gets written down. I'm Viraj, and most of what I work on is Kubernetes, Linux and cloud infrastructure.
+
+<Diagram
+  caption="An illustration, not a measurement: a request path with one slow hop, the kind of thing I end up tracing."
+  height={218}
+  nodes={[
+    { id: "req", label: "Request", x: 10, y: 66, tone: "sun" },
+    { id: "svc", label: "Service", x: 36, y: 66, tone: "blush" },
+    { id: "db", label: "Database", note: "this hop is slow", x: 65, y: 66, tone: "persimmon" },
+    { id: "res", label: "Response", x: 91, y: 66, tone: "leaf" },
+    { id: "cache", label: "Cache", note: "empty?", x: 36, y: 17, tone: "paper" },
+  ]}
+  edges={[
+    { from: "req", to: "svc", label: "GET" },
+    { from: "svc", to: "db", label: "query" },
+    { from: "db", to: "res" },
+    { from: "svc", to: "cache", kind: "dashed", label: "skipped" },
+  ]}
+/>
 
 ## What you will find here
 

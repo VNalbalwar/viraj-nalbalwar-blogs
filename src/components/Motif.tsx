@@ -1,15 +1,21 @@
 "use client";
 
 import { motion } from "motion/react";
+import type { MotifKind } from "@/lib/collage";
 
 const INK = "#181716";
 const PAPER = "#faf9f7";
 const SUN = "#ffc21a";
 const PERSIMMON = "#ff4f2e";
 
-export type MotifKind = "terminal" | "cloud" | "chip" | "nodes" | "lock" | "doc";
 
 const RULES: [RegExp, MotifKind][] = [
+  [/database|sql|postgres|mysql|storage|redis|cache/i, "database"],
+  [/docker|container|podman|image|oci/i, "container"],
+  [/timer|cron|schedule|latency|time/i, "clock"],
+  [/\bgit\b|branch|ci\b|release|merge|version/i, "branch"],
+  [/benchmark|performance|metrics|monitoring|chart|prometheus|grafana/i, "chart"],
+  [/network|dns|http|web|internet|tcp|browser/i, "globe"],
   [/linux|arch|shell|terminal|systemd|kernel|bash|hyprland|cli/i, "terminal"],
   [/cloud|kubernetes|k8s|devops|docker|openstack|openshift|aws|infra/i, "cloud"],
   [/gpu|cuda|hardware|hpc|chip|nvidia|cpu/i, "chip"],
@@ -18,7 +24,8 @@ const RULES: [RegExp, MotifKind][] = [
 ];
 
 /** Pick a topic scene from a post's tags. Returns null when there are no tags. */
-export function motifFor(tags: string[] | undefined): MotifKind | null {
+export function motifFor(tags: string[] | undefined, override?: MotifKind): MotifKind | null {
+  if (override) return override;
   if (!tags || tags.length === 0) return null;
   for (const t of tags) for (const [re, kind] of RULES) if (re.test(t)) return kind;
   return "doc";
@@ -103,6 +110,87 @@ function Scene({ kind }: { kind: MotifKind }) {
           <polygon points="22,56 148,52 152,124 18,128" fill={INK} />
           <polygon points={ngon(85, 84, 11, 9)} fill={SUN} />
           <polygon points="81,88 89,88 91,110 79,110" fill={SUN} />
+        </>
+      );
+    case "database":
+      return (
+        <>
+          {[0, 1, 2].map((i) => (
+            <g key={i}>
+              <polygon points={`22,${20 + i * 36} 150,${16 + i * 36} 152,${46 + i * 36} 20,${50 + i * 36}`} fill={INK} />
+              <polygon points={`22,${20 + i * 36} 150,${16 + i * 36} 150,${26 + i * 36} 22,${30 + i * 36}`} fill={i === 0 ? SUN : PAPER} />
+              <rect className="m-fill m-blink" style={{ animationDelay: `${i * 0.33}s` }} x="126" y={34 + i * 36} width="14" height="8" fill={i === 1 ? PERSIMMON : PAPER} />
+            </g>
+          ))}
+        </>
+      );
+    case "container":
+      return (
+        <>
+          <polygon points="6,16 166,10 168,122 4,126" fill={INK} />
+          {[0, 1, 2].map((c) =>
+            [0, 1].map((r) => (
+              <rect
+                key={`${c}${r}`}
+                className={c === 1 && r === 0 ? "m-fill m-pop" : undefined}
+                x={18 + c * 50}
+                y={24 + r * 48}
+                width="42"
+                height="38"
+                fill={c === 1 && r === 0 ? PERSIMMON : r === 1 && c === 2 ? SUN : PAPER}
+              />
+            )),
+          )}
+        </>
+      );
+    case "clock":
+      return (
+        <>
+          <polygon points={ngon(85, 65, 60, 12)} fill={INK} />
+          <polygon points={ngon(85, 65, 50, 12)} fill={PAPER} />
+          {[0, 90, 180, 270].map((a) => (
+            <rect key={a} x="83" y="19" width="4" height="10" fill={INK} transform={`rotate(${a} 85 65)`} />
+          ))}
+          <rect x="83" y="40" width="5" height="28" fill={INK} />
+          <g className="m-fill m-spin" style={{ transformOrigin: "85px 65px", transformBox: "view-box" } as React.CSSProperties}>
+            <rect x="84" y="24" width="3" height="42" fill={PERSIMMON} />
+          </g>
+          <polygon points={ngon(85, 65, 6, 8)} fill={INK} />
+        </>
+      );
+    case "branch": {
+      const pts: [number, number][] = [[40, 108], [40, 62], [40, 18], [118, 40], [118, 90]];
+      return (
+        <>
+          <line x1="40" y1="108" x2="40" y2="18" stroke={INK} strokeWidth="7" />
+          <polyline points="40,86 78,62 118,62 118,90" fill="none" stroke={INK} strokeWidth="7" />
+          <polyline points="40,40 78,20 118,20 118,40" fill="none" stroke={INK} strokeWidth="7" />
+          {pts.map(([x, y], i) => (
+            <polygon key={i} className="m-fill m-pop" style={{ animationDelay: `${i * 0.35}s` }} points={ngon(x, y, 13, 9)} fill={i === 3 ? PERSIMMON : i === 1 ? SUN : INK} />
+          ))}
+        </>
+      );
+    }
+    case "chart":
+      return (
+        <>
+          <polygon points="6,6 166,0 168,126 4,130" fill={PAPER} />
+          <polyline points="22,18 22,108 152,108" fill="none" stroke={INK} strokeWidth="6" />
+          {[[34, 52], [62, 74], [90, 30], [118, 58]].map(([x, h], i) => (
+            <rect key={i} className="m-fill m-grow" style={{ animationDelay: `${i * 0.25}s` }} x={x} y={104 - h} width="20" height={h} fill={i === 2 ? PERSIMMON : INK} />
+          ))}
+        </>
+      );
+    case "globe":
+      return (
+        <>
+          <polygon points={ngon(85, 65, 60, 14)} fill={INK} />
+          <polyline points="30,65 140,65" fill="none" stroke={PAPER} strokeWidth="4" />
+          <polyline points="38,38 132,38" fill="none" stroke={PAPER} strokeWidth="4" />
+          <polyline points="38,92 132,92" fill="none" stroke={PAPER} strokeWidth="4" />
+          <polygon points="85,6 118,65 85,124 52,65" fill="none" stroke={PAPER} strokeWidth="4" />
+          <line className="m-march" x1="85" y1="8" x2="85" y2="122" stroke={SUN} strokeWidth="5" />
+          <polygon className="m-fill m-pop" points={ngon(112, 46, 8, 8)} fill={PERSIMMON} />
         </>
       );
     default:

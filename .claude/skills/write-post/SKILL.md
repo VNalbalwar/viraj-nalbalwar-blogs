@@ -22,20 +22,21 @@ Read `pipeline/VOICE.md` first and follow it exactly. In particular:
 1. **Pick the lane.** Run `node pipeline/pipeline.mjs pick` (add `--lane <name>` if the author named one). The `notes` lane only runs when a ready note exists in `pipeline/notes/`; otherwise it becomes an explainer. Read the lane's brief and limits from the JSON.
 2. **Choose the topic.** See `pipeline/topics.md`, `node pipeline/pipeline.mjs existing`, and the topics already in `pipeline/state.json`. For news, WebSearch for items from the last 10 days and prefer primary sources. Pick something a developer would search for. Tell the author the topic and lane in one line, then continue (do not wait).
 3. **Research.** WebSearch, then WebFetch and read every page you will rely on. Note exact numbers, names, versions and dates as the pages state them. Prefer the primary source; say so if you could only reach a secondary report.
-4. **Write** `content/posts/<slug>.mdx` using the frontmatter in `content/posts/component-lab.mdx` (title, description 90 to 160 chars, today's date, 2 to 4 lowercase tags, `draft: false`, `sources`). Look at that post for the MDX components. Search-friendly basics, see below.
-5. **Validate.** Run `node pipeline/validate.mjs content/posts/<slug>.mdx --lane <lane>`. Fix every ERROR by rewriting the sentences naturally (not by swapping words). At most two rounds; if it still fails, say what is wrong and stop.
-6. **Re-check against the sources.** Reread the post once against your notes: numbers, qualifiers, quotes verbatim, every link. Remove anything you cannot support.
-7. **Build.** `npm run build` must pass.
-8. **Show the author the draft for review.** Give them, in chat:
+4. **Write** `content/posts/<slug>.mdx` using the frontmatter in `content/posts/component-lab.mdx` (title, description 90 to 160 chars, today's date, 2 to 4 lowercase tags, `accent`, optionally `motif`, `draft: false`, `sources`). Look at that post for the MDX components. Search-friendly basics, see below.
+5. **Design the visuals.** Follow the Visuals section of `pipeline/VOICE.md`. Decide what the reader needs to see, build one to three figures (Diagram, Stack, Bars, Timeline, Compare, Flow, Figure) from this post's own content, give the post its own accent and scene, and caption each figure. Quick takes may skip visuals; every other lane needs at least one.
+6. **Validate.** Run `node pipeline/validate.mjs content/posts/<slug>.mdx --lane <lane>`. Fix every ERROR by rewriting the sentences naturally (not by swapping words). At most two rounds; if it still fails, say what is wrong and stop.
+7. **Re-check against the sources.** Reread the post once against your notes: numbers, qualifiers, quotes verbatim, every link. Remove anything you cannot support.
+8. **Build.** `npm run build` must pass.
+9. **Show the author the draft for review.** Give them, in chat:
    - the title, description, slug and word count;
    - a short summary of what the post says;
-   - **Claims to verify**: every factual statement with the source URL it came from;
+   - **Claims to verify**: every factual statement with the source URL it came from, including every number, label and relationship in a figure;
    - **Background knowledge used**: anything not supported by a fetched page (aim for none);
    - **Opinions**: every concluding or judgement sentence (or "None");
    - **Could not confirm**.
    Offer a preview: start the dev server (`preview_start` offcuts-dev) and open `/posts/<slug>` if the author wants to see it rendered.
-9. **Ask for approval** with the question tool: Publish, Revise (the author says what to change, then repeat from step 5), or Discard (delete the file).
-10. **On Publish only:**
+10. **Ask for approval** with the question tool: Publish, Revise (the author says what to change, then repeat from step 5), or Discard (delete the file).
+11. **On Publish only:**
     - `node pipeline/pipeline.mjs record <slug> <lane> [notes-file]`
     - `git add content/posts/<slug>.mdx pipeline/state.json [notes-file]` and commit as `post: <title>`
     - `git push origin main` (the push deploys the site automatically)

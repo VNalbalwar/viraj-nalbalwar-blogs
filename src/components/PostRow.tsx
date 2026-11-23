@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { Collage } from "./Collage";
 import { formatDate, tagSlug } from "@/lib/format";
+import type { MotifKind, Paper } from "@/lib/collage";
 
 export type PostSummary = {
   slug: string;
@@ -11,6 +12,8 @@ export type PostSummary = {
   tags: string[];
   minutes: number;
   draft?: boolean;
+  accent?: Paper;
+  motif?: MotifKind;
 };
 
 function Tags({ tags }: { tags: string[] }) {
@@ -34,7 +37,7 @@ export function PostRow({ post }: { post: PostSummary }) {
   return (
     <article className="post-row cut-group row-rule relative grid items-center gap-x-8 gap-y-4 py-7 sm:grid-cols-[13rem_1fr_auto]">
       <div className="thumb aspect-[8/5]">
-        <Collage seed={post.slug} tags={post.tags} />
+        <Collage seed={post.slug} tags={post.tags} accent={post.accent} motif={post.motif} />
       </div>
       <div className="grid gap-2.5">
         <p className="t-meta m-0">
@@ -60,7 +63,7 @@ export function FeaturePost({ post }: { post: PostSummary }) {
   return (
     <article className="cut-group relative grid items-center gap-x-12 gap-y-6 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)]">
       <div className="thumb aspect-[8/5]">
-        <Collage seed={post.slug} tags={post.tags} />
+        <Collage seed={post.slug} tags={post.tags} accent={post.accent} motif={post.motif} />
       </div>
       <div className="grid gap-5">
         <p className="t-meta m-0">

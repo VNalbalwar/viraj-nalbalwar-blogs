@@ -4,6 +4,8 @@ description: "A working reference for the figures, callouts, terminal replays an
 date: "2026-11-23"
 tags: ["meta", "reference"]
 draft: true
+accent: "pine"
+motif: "chart"
 ---
 
 Every post is plain MDX. This one exists to show the building blocks and the exact syntax for each, so a post never has to guess.
@@ -70,6 +72,83 @@ A short process, drawn as paper. Nodes drop in one after another and the connect
     { label: "Check", note: "Link every outside claim" },
     { label: "Publish", note: "Read it once more, then ship it" },
   ]}
+/>
+
+---
+
+## Diagram
+
+Paper nodes, arrows, and packets that hop along the flow edges. Hover a node to follow its connections. Coordinates are percentages, so nothing needs pixel maths. Sample, not real data.
+
+<Diagram
+  caption="Sample: a request leaving a browser, with an optional asynchronous job."
+  height={300}
+  nodes={[
+    { id: "b", label: "Browser", x: 9, y: 54 },
+    { id: "c", label: "CDN\ncache", x: 38, y: 17, tone: "leaf" },
+    { id: "a", label: "App server", x: 59, y: 54, tone: "blush" },
+    { id: "d", label: "Database", x: 91, y: 54, tone: "pine" },
+    { id: "q", label: "Job queue", x: 59, y: 90, tone: "paper" },
+  ]}
+  edges={[
+    { from: "b", to: "c", label: "GET" },
+    { from: "c", to: "a", label: "miss" },
+    { from: "a", to: "d", kind: "both", label: "query" },
+    { from: "a", to: "q", kind: "dashed", label: "async" },
+  ]}
+/>
+
+## Stack
+
+Layers of paper, first item on top.
+
+<Stack
+  caption="Sample: what sits on what."
+  layers={[
+    { label: "Your code", note: "What you write" },
+    { label: "Runtime", note: "Interprets or runs it" },
+    { label: "Operating system", note: "Shares the machine out" },
+    { label: "Hardware" },
+  ]}
+/>
+
+## Bars
+
+Only use real numbers from a cited source, and say which one in the caption. These are made up.
+
+<Bars
+  caption="Sample numbers for the layout only."
+  unit="ms"
+  highlight={1}
+  items={[
+    { label: "Run A", value: 120 },
+    { label: "Run B", value: 85, note: "fastest" },
+    { label: "Run C", value: 240 },
+  ]}
+/>
+
+## Timeline
+
+<Timeline
+  caption="Sample dates for the layout only."
+  events={[
+    { date: "1 Mar", label: "Report filed", note: "Someone notices it." },
+    { date: "9 Mar", label: "Fix proposed" },
+    { date: "21 Mar", label: "Released", note: "Ships in the next version." },
+  ]}
+/>
+
+## Figure
+
+For a screenshot or a photo that carries information a diagram cannot. Images live in `public/posts/<slug>/`. `alt` says what the picture shows; `credit` says where it came from.
+
+<Figure
+  src="/viraj-nalbalwar.jpg"
+  alt="Portrait photo used as a layout sample"
+  caption="Sample image, only to show the frame."
+  credit="Viraj Nalbalwar"
+  width={900}
+  height={900}
 />
 
 ---

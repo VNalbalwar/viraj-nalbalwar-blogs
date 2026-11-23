@@ -2,8 +2,13 @@ import Link from "next/link";
 import type { MDXComponents } from "mdx/types";
 import { Callout } from "./Callout";
 import { Collage } from "./Collage";
+import { Bars } from "./Bars";
 import { Compare } from "./Compare";
+import { Diagram } from "./Diagram";
+import { Figure } from "./Figure";
 import { Flow } from "./Flow";
+import { Stack } from "./Stack";
+import { Timeline } from "./Timeline";
 import { CopyButton } from "./CopyButton";
 import { CutLine } from "./CutLine";
 import { Terminal } from "./Terminal";
@@ -11,9 +16,14 @@ import { Terminal } from "./Terminal";
 export const mdxComponents: MDXComponents = {
   Callout,
   Collage,
+  Bars,
   Compare,
+  Diagram,
+  Figure,
   Flow,
+  Stack,
   Terminal,
+  Timeline,
   hr: () => <CutLine />,
   a: ({ href = "", children, ...rest }) => {
     if (href.startsWith("/") || href.startsWith("#")) {

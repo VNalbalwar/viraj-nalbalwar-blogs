@@ -15,6 +15,7 @@ import { RelatedPosts } from "@/components/RelatedPosts";
 import { Toc } from "@/components/Toc";
 import { formatDate, getAllPosts, getPost, tagSlug } from "@/lib/posts";
 import { JsonLd, PERSON_ID, WEBSITE_ID, breadcrumbNode, personNode } from "@/lib/jsonld";
+import { accentFor } from "@/lib/collage";
 import { robotsFor } from "@/lib/seo";
 import { absoluteUrl, site } from "@/lib/site";
 
@@ -64,6 +65,7 @@ export default async function PostPage({ params }: Props) {
   const newer = all[i - 1];
   const older = all[i + 1];
 
+  const accent = accentFor(post.slug, post.accent);
   const url = absoluteUrl(`/posts/${post.slug}`);
   const words = post.content.replace(/```[\s\S]*?```/g, " ").replace(/<[^>]+>/g, " ").split(/\s+/).filter(Boolean).length;
   const jsonLd = {
@@ -96,7 +98,7 @@ export default async function PostPage({ params }: Props) {
   };
 
   return (
-    <>
+    <div className="post-scope" data-accent={accent} style={{ "--post-accent": `var(--${accent})` } as React.CSSProperties}>
       <ReadingProgress />
       <article className="wrap pb-8 pt-6">
         <header className="mb-10 grid gap-5">
@@ -121,7 +123,7 @@ export default async function PostPage({ params }: Props) {
         </header>
 
         <div className="thumb mb-14 aspect-[16/7] sm:aspect-[16/6]">
-          <Collage seed={post.slug} tags={post.tags} parallax title={`Cut-paper collage for ${post.title}`} />
+          <Collage seed={post.slug} tags={post.tags} accent={post.accent} motif={post.motif} parallax title={`Cut-paper collage for ${post.title}`} />
         </div>
 
         <div className="grid gap-x-14 lg:grid-cols-[13rem_minmax(0,1fr)]">
@@ -188,6 +190,6 @@ export default async function PostPage({ params }: Props) {
         </div>
       </article>
       <JsonLd data={jsonLd} />
-    </>
+    </div>
   );
 }

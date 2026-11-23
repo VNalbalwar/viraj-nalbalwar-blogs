@@ -7,6 +7,10 @@ export const H = 400;
 export const PAPERS = ["persimmon", "sun", "leaf", "blush", "pine"] as const;
 export type Paper = (typeof PAPERS)[number];
 
+/** Topic scenes a post can pin in its frontmatter (`motif:`). Without one, the tags choose. */
+export const MOTIFS = ["terminal", "cloud", "chip", "nodes", "lock", "doc", "database", "container", "clock", "branch", "chart", "globe"] as const;
+export type MotifKind = (typeof MOTIFS)[number];
+
 export type Piece = {
   id: number;
   points: string;
@@ -81,9 +85,11 @@ function shuffle<T>(rand: () => number, arr: readonly T[]) {
   return a;
 }
 
-export function makeCollage(seed: string): Piece[] {
+export function makeCollage(seed: string, accent?: Paper): Piece[] {
   const rand = rng(seedFrom(seed));
-  const order = shuffle(rand, PAPERS);
+  // an accent becomes the ground piece (the biggest, first-laid sheet); the rest stay shuffled
+  const shuffled = shuffle(rand, accent ? PAPERS.filter((p) => p !== accent) : PAPERS);
+  const order = accent ? [accent, ...shuffled] : shuffled;
   let ci = 0;
   const nextPaper = (): Paper => order[ci++ % order.length];
   const pieces: Piece[] = [];
@@ -141,4 +147,9 @@ export function makeCollage(seed: string): Piece[] {
   }
 
   return pieces;
+}
+
+/** The accent colour a post wears: its frontmatter `accent`, else whichever paper the slug lays down first. */
+export function accentFor(slug: string, override?: Paper): Paper {
+  return override ?? makeCollage(slug)[0].paper;
 }

@@ -12,7 +12,7 @@ One request produces one post. Ask again for another, as often as you like. The 
 
 1. picks a lane and a topic (or uses yours),
 2. researches with live web search and reads the pages it relies on,
-3. writes `content/posts/<slug>.mdx`,
+3. writes `content/posts/<slug>.mdx`, then designs one to three figures for it (diagram, stack, bars, timeline, image) and gives the post its own accent colour and cover scene,
 4. runs the validator and a site build,
 5. shows you the post with every claim and its source, anything not backed by a source, and every opinion,
 6. **waits for your approval**. Publish, Revise, or Discard.
@@ -32,7 +32,7 @@ Name a lane or a topic in the request to override the rotation.
 
 ## The checks (`validate.mjs`)
 
-Required frontmatter, minimum sources from distinct domains, every link resolving (404s fail), every body link listed in `sources`, word counts per lane, machine-sounding phrases, em-dash and emoji limits, no invented first-person experience outside the notes lane, no invented terminal output, no conclusion section, one callout at most, no source linked more than twice, at most two direct quotes.
+Required frontmatter, a valid `accent` and `motif`, at least one visual (quick takes excepted) and at most three, a caption on every figure, alt text and a credit on every image (local files only), minimum sources from distinct domains, every link resolving (404s fail), every body link listed in `sources`, word counts per lane, machine-sounding phrases, em-dash and emoji limits, no invented first-person experience outside the notes lane, no invented terminal output, no conclusion section, one callout at most, no source linked more than twice, at most two direct quotes.
 
 It cannot judge whether a post is true or sounds like you. That is your review in step 6.
 

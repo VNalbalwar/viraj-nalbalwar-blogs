@@ -396,15 +396,15 @@ figure:hover .copy-btn, .copy-btn:focus-visible { opacity: 1; }
 .toc a:hover { color: var(--ink); }
 .toc a[aria-current="true"] { color: var(--ink); font-weight: 700; }
 .toc a { position: relative; padding-left: 1.05rem; }
-.toc-marker { position: absolute; left: 0; top: 0.62rem; width: 0.6rem; height: 0.6rem; background: var(--persimmon); clip-path: polygon(12% 0, 100% 20%, 86% 100%, 0 80%); }
+.toc-marker { position: absolute; left: 0; top: 0.62rem; width: 0.6rem; height: 0.6rem; clip-path: polygon(12% 0, 100% 20%, 86% 100%, 0 80%); }
 
 /* progress */
-.progress { position: fixed; inset: 0 0 auto 0; height: 4px; z-index: 60; background: var(--persimmon); transform-origin: left; }
+.progress { position: fixed; inset: 0 0 auto 0; height: 4px; z-index: 60; transform-origin: left; }
 
 /* ─── Reduced motion ─────────────────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .boil, .tile-boil, .term-caret, .m-type, .m-blink, .m-march, .m-pop, .m-rise, .m-lift, .flow-node::after { animation: none !important; }
+  .boil, .tile-boil, .term-caret, .m-type, .m-blink, .m-march, .m-pop, .m-rise, .m-lift, .m-grow, .m-spin, .flow-node::after { animation: none !important; }
   .collage .jig, .cutline-dash, .cutline-scissors { transition: none; }
   .cutline { --cut: 100%; }
 }
@@ -480,6 +480,10 @@ figure:hover .copy-btn, .copy-btn:focus-visible { opacity: 1; }
 @keyframes m-pop { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.35); } }
 @keyframes m-rise { 0% { transform: translateY(8px); opacity: 0; } 30% { opacity: 1; } 100% { transform: translateY(-14px); opacity: 0; } }
 @keyframes m-lift { 0%, 55%, 100% { transform: translateY(0); } 65%, 90% { transform: translateY(-9px); } }
+.m-grow { transform-origin: center bottom; animation: m-grow 3.4s steps(8, end) infinite; }
+@keyframes m-grow { 0%, 10% { transform: scaleY(0.15); } 70%, 100% { transform: scaleY(1); } }
+@keyframes m-spin { to { transform: rotate(360deg); } }
+.m-spin { animation: m-spin 6s steps(12, end) infinite; }
 .m-type { transform-origin: left center; animation: m-type 3.2s steps(9, end) infinite; }
 .m-blink { animation: m-blink 1s steps(1, end) infinite; }
 .m-march { stroke-dasharray: 6 8; animation: m-march 1.1s steps(4, end) infinite; }
@@ -574,3 +578,66 @@ figure:hover .copy-btn, .copy-btn:focus-visible { opacity: 1; }
 @keyframes toss { from { transform: translateY(-160px) rotate(-38deg); } }
 .tile { animation: toss 0.85s var(--ease-out) backwards; }
 @media (prefers-reduced-motion: reduce) { .page-in, .kt-word, .tile { animation: none; } }
+
+/* ─── Post figures: diagrams, stacks, bars, timelines, framed images ───────── */
+.fig-cap { margin-top: 0.8rem; font-family: var(--font-text); font-size: 0.92rem; line-height: 1.5; color: var(--ink-2); }
+.fig-credit { white-space: nowrap; }
+.fig-credit a { text-decoration: underline; text-decoration-color: var(--persimmon); text-underline-offset: 0.18em; }
+
+.dg-scroll { overflow-x: auto; overflow-y: hidden; padding-block: 0.4rem; }
+.dg-svg { display: block; width: 100%; min-width: 540px; height: auto; overflow: visible; }
+.dg-svg text { font-family: var(--font-display); }
+.dg-node { transition: opacity 0.2s; }
+.dg-edge { transition: opacity 0.2s; }
+
+.stack { list-style: none; margin: 0; padding: 0; display: grid; }
+.stack-layer { position: relative; isolation: isolate; margin-top: -0.4rem; padding: 0.95rem 1.4rem 1.05rem; font-family: var(--font-display); filter: var(--shadow-paper); }
+.stack-layer:first-child { margin-top: 0; }
+.stack-layer::before { content: ""; position: absolute; inset: 0; z-index: -1; background: var(--n); clip-path: polygon(1% 7%, 99% 0, 100% 93%, 0 100%); }
+.stack-layer b { display: block; font-size: 1.12rem; letter-spacing: -0.02em; }
+.stack-layer span { display: block; margin-top: 0.15rem; font-family: var(--font-text); font-size: 0.92rem; }
+
+.bars { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.85rem; }
+.bar-row { display: grid; grid-template-columns: minmax(6rem, 10rem) 1fr auto; align-items: center; gap: 1rem; font-family: var(--font-display); }
+.bar-label { font-weight: 700; letter-spacing: -0.01em; line-height: 1.25; }
+.bar-label small { display: block; font-family: var(--font-text); font-weight: 500; font-size: 0.8rem; color: var(--ink-2); }
+.bar-track { position: relative; height: 2.2rem; display: block; }
+.bar-fill { position: absolute; inset: 0 auto 0 0; width: var(--w); background: var(--c); transform-origin: left center; clip-path: polygon(0 5%, 100% 0, 98% 100%, 0 95%); filter: var(--shadow-paper); }
+.bar-val { font-weight: 800; font-variant-numeric: tabular-nums; }
+.bar-unit { font-weight: 500; color: var(--ink-2); }
+@media (max-width: 540px) {
+  .bar-row { grid-template-columns: 1fr auto; gap: 0.3rem 1rem; }
+  .bar-row .bar-track { grid-column: 1 / -1; grid-row: 2; }
+}
+
+.tl { list-style: none; margin: 0; padding: 0 0 0 1.8rem; position: relative; display: grid; gap: 1.5rem; }
+.tl::before { content: ""; position: absolute; left: 0.5rem; top: 0.4rem; bottom: 0.4rem; border-left: 3px dashed var(--ink); opacity: 0.45; }
+.tl-item { position: relative; display: grid; gap: 0.1rem; }
+.tl-item::before { content: ""; position: absolute; left: -1.8rem; top: 0.3rem; width: 1.05rem; height: 1.05rem; background: var(--n); clip-path: polygon(12% 0, 100% 20%, 86% 100%, 0 80%); }
+.tl-date { font-size: 0.88rem; color: var(--ink-2); font-variant-numeric: tabular-nums; }
+.tl-label { font-family: var(--font-display); font-weight: 700; font-size: 1.12rem; letter-spacing: -0.02em; line-height: 1.25; }
+.tl-note { font-family: var(--font-text); font-size: 0.95rem; color: var(--ink-2); }
+
+.figure-frame { position: relative; filter: var(--shadow-paper); rotate: -0.5deg; }
+.figure-frame img { display: block; width: 100%; height: auto; clip-path: polygon(1% 2%, 99% 0, 100% 98%, 0 100%); }
+
+/* ─── Each post wears one paper colour (frontmatter accent, else its slug's) ── */
+.progress { background: var(--post-accent, var(--persimmon)); }
+.toc-marker { background: var(--post-accent, var(--persimmon)); }
+[data-theme="dark"] .post-scope[data-accent="pine"] { --post-accent: var(--leaf); }
+
+/* figure lists are not article lists: the article list styles must not reach them */
+.prose .stack, .prose .bars, .prose .flow, .prose .tl { list-style: none; }
+.prose .stack, .prose .bars, .prose .flow { padding-left: 0; }
+.prose .tl { padding-left: 1.8rem; }
+.prose .stack-layer, .prose .tl-item, .prose .bar-row, .prose .flow-node { margin-top: 0; }
+.prose .stack-layer { margin-top: -0.4rem; }
+.prose .stack-layer:first-child { margin-top: 0; }
+.stack-layer { display: grid; }
+
+/* on phones a diagram scrolls sideways inside its frame: fade the edge and say so */
+.dg-hint { display: none; margin: 0.35rem 0 0; font-size: 0.82rem; color: var(--ink-2); }
+@media (max-width: 600px) {
+  .dg-scroll { -webkit-mask-image: linear-gradient(to right, #000 88%, transparent); mask-image: linear-gradient(to right, #000 88%, transparent); }
+  .dg-hint { display: block; }
+}
