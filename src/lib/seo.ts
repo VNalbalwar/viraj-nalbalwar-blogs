@@ -12,3 +12,6 @@ export function robotsFor({ draft = false, follow = true, index = true } = {}) {
     googleBot: { index: true, follow, "max-image-preview": "large" as const, "max-snippet": -1, "max-video-preview": -1 },
   };
 }
+
+/** Google Search Console ownership token (public by design; it must stay in the page for the property to stay verified). */
+export const GOOGLE_SITE_VERIFICATION = "ns7X2ceEjeM1B6X1pqsdCjvy-2ZWrvb2Ko-iFG23DBQ";

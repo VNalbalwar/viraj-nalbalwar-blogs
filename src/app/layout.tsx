@@ -4,7 +4,7 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Providers } from "@/components/Providers";
 import { JsonLd, websiteNode } from "@/lib/jsonld";
-import { robotsFor } from "@/lib/seo";
+import { GOOGLE_SITE_VERIFICATION, robotsFor } from "@/lib/seo";
 import { site } from "@/lib/site";
 import "./globals.css";
 
@@ -41,7 +41,7 @@ export const metadata: Metadata = {
   robots: robotsFor(),
   // Search Console and Bing Webmaster ownership checks. Set the env vars on Vercel to enable.
   verification: {
-    google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION,
+    google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION ?? GOOGLE_SITE_VERIFICATION,
     other: process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION ? { "msvalidate.01": process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION } : undefined,
   },
 };
