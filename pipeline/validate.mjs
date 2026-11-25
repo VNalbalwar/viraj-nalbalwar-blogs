@@ -111,14 +111,22 @@ function blocksOf(name) {
   return out;
 }
 const figureBlocks = FIGURES.flatMap((n) => blocksOf(n).map((b) => [n, b]));
-if (laneName !== "quick" && figureBlocks.length === 0) err("add at least one visual (Diagram, Stack, Bars, Timeline, Compare, Flow or Figure) designed for this post");
-if (figureBlocks.length > 3) err(`${figureBlocks.length} figures (max 3)`);
+const [minVisuals, maxVisuals] = lane.visuals;
+if (figureBlocks.length < minVisuals) err(`${figureBlocks.length} visuals (the ${laneName} lane needs at least ${minVisuals}: Figure, Diagram, Stack, Bars, Timeline, Compare or Flow)`);
+if (figureBlocks.length > maxVisuals) err(`${figureBlocks.length} visuals (max ${maxVisuals} for the ${laneName} lane)`);
+if (!figureBlocks.some(([n]) => n === "Figure")) warn("no real image: add a <Figure> with a reusable one, or tell the author what you searched and why nothing was usable");
 for (const [n, b] of figureBlocks) {
   if (n !== "Compare" && !/\bcaption\s*=/.test(b)) err(`<${n}> needs a caption that says what it shows`);
   if (n === "Figure") {
     if (!/\balt\s*=/.test(b)) err("<Figure> needs alt text");
     if (!/\bcredit\s*=/.test(b)) err("<Figure> needs a credit (where the image came from, and the licence if it is not the author's)");
     if (!/\bsrc\s*=\s*["']\/posts\//.test(b)) err("<Figure> src must be a local file in /posts/<slug>/ (never hotlink)");
+    const src = b.match(/\bsrc\s*=\s*["'](\/posts\/[^"']+)["']/)?.[1];
+    if (src && !fs.existsSync(path.join(process.cwd(), "public", src))) err(`<Figure> file is missing: public${src}`);
+    if (/\b(credit|license)\s*=\s*["'][^"']*\bCC[ -]BY/.test(b) && !/\blicenseHref\s*=/.test(b)) err("<Figure> with a Creative Commons licence needs license and licenseHref (the licence's own page)");
+    const page = b.match(/\bcreditHref\s*=\s*["']([^"']+)["']/)?.[1];
+    if (!page) warn("<Figure> has no creditHref: link the image's own page (only the author's own images may skip this)");
+    else if (!sourceUrls.has(page.replace(/#.*$/, "").replace(/\/$/, ""))) err(`<Figure> creditHref is not listed in sources: ${page}`);
   }
 }
 

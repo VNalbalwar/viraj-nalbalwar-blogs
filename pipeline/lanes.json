@@ -3,21 +3,25 @@
   "lanes": {
     "notes": {
       "words": [900, 1600],
+      "visuals": [2, 6],
       "minSources": 1,
       "brief": "Hands-on post written ONLY from the notes file `{{NOTES}}`. Read it first. Everything that Viraj did, saw or measured must come from that file, in his voice (first person is fine here). Keep his raw output verbatim in `<Terminal>` or code blocks. Explain what the results mean using sources you fetch, and say plainly where the notes are thin instead of filling gaps."
     },
     "explainer": {
       "words": [900, 1500],
+      "visuals": [2, 6],
       "minSources": 3,
       "brief": "A sourced explainer on Linux, systems, cloud or GPU/ML infrastructure: how something actually works, or why it behaves the way it does, built from official docs, man pages, kernel documentation, papers and source code. No claims of personal experience. Teach one thing well."
     },
     "news": {
       "words": [700, 1200],
+      "visuals": [2, 6],
       "minSources": 3,
       "brief": "A news-driven post about something that happened in AI/ML, Linux, cloud or developer tooling in the last 10 days. Say what happened, what it changes for a developer, and what is still unknown. At least two sources from different domains, one of them primary. No claims of personal experience."
     },
     "quick": {
       "words": [280, 550],
+      "visuals": [1, 3],
       "minSources": 1,
       "brief": "A short take (under 550 words) on one recent item: what it is, why it matters, one caveat. Sourced like any other post. No claims of personal experience."
     }

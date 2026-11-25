@@ -620,6 +620,7 @@ figure:hover .copy-btn, .copy-btn:focus-visible { opacity: 1; }
 
 .figure-frame { position: relative; filter: var(--shadow-paper); rotate: -0.5deg; }
 .figure-frame img { display: block; width: 100%; height: auto; clip-path: polygon(1% 2%, 99% 0, 100% 98%, 0 100%); }
+.prose figure.fig-narrow { max-width: min(24rem, 100%); }
 
 /* ─── Each post wears one paper colour (frontmatter accent, else its slug's) ── */
 .progress { background: var(--post-accent, var(--persimmon)); }

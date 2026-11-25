@@ -38,8 +38,8 @@ The byline is Viraj's. Never mention in the post that it was written, drafted or
 - 2 to 6 `##` headings that state what the section says ("Persistent=true only fires once", not "Overview"). Use `###` sparingly.
 - No `#` heading in the body (the title is the h1). No "Conclusion", "Summary" or "TL;DR" section.
 - End when the content ends: a last useful fact, a caveat or a next step. Do not summarise what you just said.
-- Use at most one `<Callout>` and at most one other component per post, and only when it earns its place. Lists and tables only when the content is a list or a table.
-- Do not add decorative images or cover art: covers are generated from the slug and tags. Images are allowed only as a `<Figure>` that carries evidence, under the Visuals rules below.
+- Use at most one `<Callout>`, and only when it earns its place. Visuals follow the Visuals rules below. Lists and tables only when the content is a list or a table.
+- Do not add decorative images or cover art: covers are generated from the slug and tags. Every image goes in a `<Figure>`, shows what its section is about, and follows the Visuals rules below.
 
 ## Words and habits to avoid
 These read as machine-written and the validator rejects most of them: delve, tapestry, landscape (as in "the AI landscape"), game-changer, revolutionize, unlock (the power of), harness, leverage, seamless, robust, cutting-edge, groundbreaking, ever-evolving, fast-paced, realm, journey, embark, elevate, supercharge, unleash, testament, pivotal, crucial, "it's important to note", "in conclusion", "at the end of the day", "dive into", "deep dive", "let's explore", "here's the thing", "not just X but Y", "whether you're a beginner or an expert".
@@ -49,22 +49,22 @@ These read as machine-written and the validator rejects most of them: delve, tap
 - Do not open three paragraphs in a row with the same word. Do not write in triplets every time ("fast, simple and reliable").
 - No hedging pile-ups ("may potentially", "could possibly"). Say it or cut it.
 
-## Visuals (every post, except a quick take, needs one)
+## Visuals (every post needs them)
 Each post should look like itself while staying plainly Offcuts: cut paper, the five paper colours, stepped motion. The visuals are designed from the post's own content, not picked from a menu.
 
-1. Decide what the reader needs to *see*, and pick the figure that shows it:
+1. Decide what the reader needs to *see*, and pick the figure that shows it. Where a real picture applies, it comes first:
+   - a person, product, place, event, document, interface or published chart: `<Figure>`
    - a path or a set of connected parts: `<Diagram>` (nodes, arrows, packets that hop along the flow edges)
    - layers or "this sits on that": `<Stack>`
    - numbers to compare: `<Bars>` (only numbers that come from a cited source; name the source in the caption)
    - things in time: `<Timeline>`
    - before and after: `<Compare>`; a sequence of steps: `<Flow>`
-   - a screenshot or photo that carries information a diagram cannot: `<Figure>`
-2. One to three visuals per post, never more. Each earns its place: it explains something faster than the prose can. Place it right after the paragraph that introduces it.
+2. Stay within the lane's `visuals` range in `pipeline/lanes.json`. Each visual earns its place: it shows the section's subject, or explains something faster than the prose can. Place it right after the paragraph that introduces it, and spread them through the post.
 3. Every figure has a `caption` that says what it shows. A diagram that illustrates an idea instead of showing real data says so ("An illustration, not a measurement: ...").
 4. Design each diagram for this post: choose the nodes, their order, which edge is dashed, which node gets the persimmon highlight, what the packet is carrying. Do not reuse the sample layouts from component-lab. At most four nodes in a row, at least 25 percent apart; use `\n` in a label for two lines.
 5. Give the post its own identity in frontmatter: `accent` (one of persimmon, sun, leaf, blush, pine) and, when the tags do not already pick a good scene, `motif` (terminal, cloud, chip, nodes, lock, doc, database, container, clock, branch, chart, globe). Check the accents already used (`grep -h "^accent" content/posts/*.mdx`) and pick a different one from the last post.
 6. Use only the toolkit. No new colours, no new fonts, no emoji, no clip art, no gradients.
-7. Images (`<Figure>`): only when a picture is the evidence. Use screenshots the author supplies, or openly licensed or public-domain images, and record the source and licence in `credit` and `creditHref`. Never hotlink: save the file in `public/posts/<slug>/`, resize it (at most 1400px wide, webp or jpg), and give it real `alt` text. Do not generate photorealistic images. If the author asks for a generated illustration, say how it was made in `credit`.
+7. Images (`<Figure>`): preferred wherever a real one applies. Which images may be used, asking before a download, and how to credit them are set out in "Images and motion graphics" in `.claude/skills/write-post/SKILL.md`. Never hotlink: save the file in `public/posts/<slug>/`, resize it (at most 1400px wide, webp or jpg), give it real `alt` text, and fill in `credit` and `creditHref` (plus `license` and `licenseHref` for Creative Commons). Do not generate photorealistic images. If the author asks for a generated illustration, say how it was made in `credit`.
 8. Every number, label and relationship in a figure is a claim: it goes in REVIEW (Claims to verify) with its source, like any sentence in the post.
 
 ## Components available (MDX)
@@ -73,6 +73,6 @@ Each post should look like itself while staying plainly Offcuts: cut paper, the 
 - `<Compare before={...} after={...} />`, `<Flow steps={[{ label, note }]} caption="..." />`
 - `<Diagram nodes={[{ id, label, note?, x, y, tone? }]} edges={[{ from, to, label?, kind?: "flow"|"dashed"|"both" }]} height={300} caption="..." />` (x and y are percentages)
 - `<Stack layers={[{ label, note? }]} caption="..." />`, `<Bars items={[{ label, value, note? }]} unit="ms" highlight={1} caption="..." />`, `<Timeline events={[{ date, label, note? }]} caption="..." />`
-- `<Figure src="/posts/<slug>/file.webp" alt="..." caption="..." credit="..." creditHref="..." width={1200} height={675} />`
+- `<Figure src="/posts/<slug>/file.webp" alt="..." caption="..." credit="..." creditHref="..." license="CC BY 4.0" licenseHref="https://creativecommons.org/licenses/by/4.0/" width={1200} height={675} />` (add `narrow` for portraits)
 - Fenced code with a language, optional `title="file.ts"` and `{2,4-6}` line highlights.
 - `---` on its own line draws an animated section break. Use at most once.
