@@ -104,7 +104,8 @@ export default async function PostPage({ params }: Props) {
         <header className="mb-10 grid gap-5">
           <Breadcrumbs items={[{ name: "Home", path: "/" }, { name: "Posts", path: "/posts" }, { name: post.title }]} />
           <p className="t-meta m-0">
-            {formatDate(post.date)} · {post.minutes} min read
+            {formatDate(post.date)}
+            {post.updated && post.updated !== post.date ? `, updated ${formatDate(post.updated)}` : ""} · {post.minutes} min read
             {post.draft && <span className="chip ml-3">Draft, not published</span>}
           </p>
           <KineticTitle text={post.title} className="t-title m-0 max-w-[22ch]" />
